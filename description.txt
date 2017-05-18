@@ -1,0 +1,1 @@
+A very simple mod that deletes unknown blocks and removes unknown entities.
