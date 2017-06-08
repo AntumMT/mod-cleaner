@@ -1,7 +1,7 @@
 -- clean by PilzAdam
 -- LICENSE: WTFPL
 
-local old_nodes = {'mod:a', 'mod:b'}
+local old_nodes = {}
 local old_entities = {}
 
 for _,node_name in ipairs(old_nodes) do
