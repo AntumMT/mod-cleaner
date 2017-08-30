@@ -1,1 +1,1 @@
-Clean Entities. A simple mod that removes unknown entities.
+A simple mod that can be used to remove unknown entities.

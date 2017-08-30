@@ -1,20 +1,20 @@
---[[ Clean Entities mod
+--[[ Cleaner mod
      License: CC0
 ]]
 
 
-cleane = {}
-cleane.name = core.get_current_modname()
+cleaner = {}
+cleaner.name = core.get_current_modname()
 
 local debug = core.settings:get_bool('enable_debug_mods')
 
 local function log(level, msg)
-	core.log(level, '[' .. cleane.name .. '] ' .. msg)
+	core.log(level, '[' .. cleaner.name .. '] ' .. msg)
 end
 
 local function logDebug(msg)
 	if debug then
-		core.log('DEBUG: [' .. cleane.name .. '] ' .. msg)
+		core.log('DEBUG: [' .. cleaner.name .. '] ' .. msg)
 	end
 end
 
