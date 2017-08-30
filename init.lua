@@ -87,6 +87,8 @@ if n_list then
 end
 
 for _, node_name in ipairs(old_nodes) do
+	logDebug('Cleaning node: ' .. node_name)
+	
     core.register_node(':' .. node_name, {
         groups = {old=1},
     })
