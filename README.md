@@ -4,7 +4,7 @@
 ---
 ### **Description:**
 
-Fork of [PilzAdam's ***clean*** mod][f.pilzadam] for Minetest.
+A simple Minetest mod that can be used to remove unknown entities & nodes. Forked from [PilzAdam's ***clean*** mod][f.pilzadam].
 
 
 ---
