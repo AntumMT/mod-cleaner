@@ -1,4 +1,4 @@
-## Clean mod for [Minetest][]
+## Clean Entities ([i]cleane[/i]) mod for [Minetest][]
 
 
 ---
