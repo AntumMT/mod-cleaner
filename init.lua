@@ -7,27 +7,27 @@ local replace_nodes = {}
 
 -- "Replaces" an old/non-existent node
 local function replace_node(old_node, new_node)
-    minetest.register_alias(old_node, new_node)
+    core.register_alias(old_node, new_node)
 end
 
 
 for _,node_name in ipairs(old_nodes) do
-    minetest.register_node(':'..node_name, {
+    core.register_node(':'..node_name, {
         groups = {old=1},
     })
 end
 
-minetest.register_abm({
+core.register_abm({
     nodenames = {'group:old'},
     interval = 1,
     chance = 1,
     action = function(pos, node)
-        minetest.remove_node(pos)
+        core.remove_node(pos)
     end,
 })
 
 for _,entity_name in ipairs(old_entities) do
-    minetest.register_entity(':'..entity_name, {
+    core.register_entity(':'..entity_name, {
         on_activate = function(self, staticdata)
             self.object:remove()
         end,
