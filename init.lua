@@ -12,7 +12,7 @@ end
 
 
 for _,node_name in ipairs(old_nodes) do
-    core.register_node(':'..node_name, {
+    core.register_node(':' .. node_name, {
         groups = {old=1},
     })
 end
@@ -26,8 +26,8 @@ core.register_abm({
     end,
 })
 
-for _,entity_name in ipairs(old_entities) do
-    core.register_entity(':'..entity_name, {
+for _, entity_name in ipairs(old_entities) do
+    core.register_entity(':' .. entity_name, {
         on_activate = function(self, staticdata)
             self.object:remove()
         end,
