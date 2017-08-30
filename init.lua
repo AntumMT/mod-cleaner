@@ -1,3 +1,23 @@
+--[[ Clean mod
+     License: CC0
+]]
+
+
+clean = {}
+clean.name = core.get_current_modname()
+
+local debug = core.settings:get_bool('enable_debug_mods')
+
+local function log(level, msg)
+	core.log(level, '[' .. clean.name .. '] ' .. msg)
+end
+
+local function logDebug(msg)
+	if debug then
+		core.log('DEBUG: [' .. clean.name .. '] ' .. msg)
+	end
+end
+
 local old_nodes = {}
 local old_entities = {}
 
