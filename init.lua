@@ -1,6 +1,3 @@
--- clean by PilzAdam
--- LICENSE: WTFPL
-
 local old_nodes = {}
 local old_entities = {}
 

@@ -10,7 +10,7 @@ Fork of [PilzAdam's ***clean*** mod][f.pilzadam] for Minetest.
 ---
 ### **Licensing:**
 
-[WTFPL](LICENSE.txt)
+[CC0](LICENSE.txt)
 
 
 [Minetest]: http://www.minetest.net/
