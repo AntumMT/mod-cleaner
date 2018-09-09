@@ -77,6 +77,7 @@ else
 	end
 end
 
+
 if n_list then
 	logDebug('Loading nodes to clean from file ...')
 	
@@ -94,11 +95,57 @@ for _, node_name in ipairs(old_nodes) do
     })
 end
 
-core.register_abm({
+
+local replace_nodes = {}
+
+
+local n_list = nil
+local n_path = core.get_worldpath() .. '/replace_nodes.txt'
+local n_file = io.open(n_path, 'r')
+if n_file then
+	n_list = n_file:read('*a')
+	n_file:close()
+else
+	-- Create empty file
+	n_file = io.open(n_path, 'w')
+	if n_file then
+		n_file:close()
+	end
+end
+
+if n_list then
+	logDebug('Loading nodes to replace from file ...')
+	
+	n_list = string.split(n_list, '\n')
+	for _, node_def in ipairs(n_list) do
+                node_list = string.split(node_def, '->')
+		replace_nodes[node_list[1]] = node_list[2]
+	end
+end
+
+for old_node, new_node in pairs(replace_nodes) do
+	logDebug('Replacing node ' .. old_node .. ' with ' .. new_node)
+	
+    core.register_node(':' .. old_node, {
+        groups = {old_replaced=1},
+    })
+end
+
+core.register_lbm({
+    name = "cleaner:remove_old_nodes",
     nodenames = {'group:old'},
-    interval = 1,
-    chance = 1,
+    run_at_every_load = true,
     action = function(pos, node)
+        logDebug('Replacing?')
         core.remove_node(pos)
+    end,
+})
+
+core.register_lbm({
+    name = "cleaner:replace_old_nodes",
+    nodenames = {'group:old_replaced'},
+    run_at_every_load = true,
+    action = function(pos, node)
+        core.set_node(pos, {name = replace_nodes[node.name]})
     end,
 })
