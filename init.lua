@@ -4,18 +4,20 @@
 
 
 cleaner = {}
-cleaner.name = core.get_current_modname()
+cleaner.modname = core.get_current_modname()
 
-local debug = core.settings:get_bool("enable_debug_mods")
+local cleaner_debug = core.settings:get_bool("enable_debug_mods", false)
 
-local function log(level, msg)
-	core.log(level, "[" .. cleaner.name .. "] " .. msg)
-end
+function cleaner.log(lvl, msg)
+	if lvl == "debug" and not cleaner_debug then return end
 
-local function logDebug(msg)
-	if debug then
-		core.log("DEBUG: [" .. cleaner.name .. "] " .. msg)
+	msg = "[" .. cleaner.modname .. "] " .. msg
+	if lvl == "debug" then
+		msg = "[DEBUG] " .. msg
+		lvl = nil
 	end
+
+	core.log(lvl, msg)
 end
 
 
@@ -39,7 +41,7 @@ else
 end
 
 if e_list then
-	logDebug("Loading entities to clean from file ...")
+	cleaner.log("debug", "Loading entities to clean from file ...")
 
 	e_list = string.split(e_list, "\n")
 	for _, entity_name in ipairs(e_list) do
@@ -48,7 +50,7 @@ if e_list then
 end
 
 for _, entity_name in ipairs(old_entities) do
-	logDebug("Cleaning entity: " .. entity_name)
+	cleaner.log("debug", "Cleaning entity: " .. entity_name)
 
     core.register_entity(":" .. entity_name, {
         on_activate = function(self, staticdata)
@@ -78,7 +80,7 @@ else
 end
 
 if n_list then
-	logDebug("Loading nodes to clean from file ...")
+	cleaner.log("debug", "Loading nodes to clean from file ...")
 
 	n_list = string.split(n_list, "\n")
 	for _, node_name in ipairs(n_list) do
@@ -87,7 +89,7 @@ if n_list then
 end
 
 for _, node_name in ipairs(old_nodes) do
-	logDebug("Cleaning node: " .. node_name)
+	cleaner.log("debug", "Cleaning node: " .. node_name)
 
     core.register_node(":" .. node_name, {
         groups = {old=1},
