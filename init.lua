@@ -12,13 +12,22 @@ local cleaner_debug = core.settings:get_bool("enable_debug_mods", false)
 function cleaner.log(lvl, msg)
 	if lvl == "debug" and not cleaner_debug then return end
 
+	if lvl and not msg then
+		msg = lvl
+		lvl = nil
+	end
+
 	msg = "[" .. cleaner.modname .. "] " .. msg
 	if lvl == "debug" then
 		msg = "[DEBUG] " .. msg
 		lvl = nil
 	end
 
-	core.log(lvl, msg)
+	if not lvl then
+		core.log(msg)
+	else
+		core.log(lvl, msg)
+	end
 end
 
 
