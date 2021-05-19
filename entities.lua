@@ -10,9 +10,7 @@ if e_file then
 	local data_in = core.parse_json(e_file:read("*a"))
 	e_file:close()
 	if data_in then
-		for _, e in ipairs(data_in.remove) do
-			table.insert(e_list.remove, e)
-		end
+		e_list = data_in
 	end
 end
 

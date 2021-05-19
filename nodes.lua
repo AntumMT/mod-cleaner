@@ -2,7 +2,7 @@
 local misc = dofile(cleaner.modpath .. "/misc_functions.lua")
 
 -- populate nodes list from file in world path
-local n_list = {remove={}}
+local n_list = {remove={}, replace={}}
 local n_path = core.get_worldpath() .. "/clean_nodes.json"
 local n_file = io.open(n_path, "r")
 
@@ -10,9 +10,7 @@ if n_file then
 	local data_in = core.parse_json(n_file:read("*a"))
 	n_file:close()
 	if data_in then
-		for _, n in ipairs(data_in.remove) do
-			table.insert(n_list.remove, n)
-		end
+		n_list = data_in
 	end
 end
 
@@ -40,7 +38,12 @@ n_list.remove = misc.clean_duplicates(n_list.remove)
 -- update json file with any changes
 n_file = io.open(n_path, "w")
 if n_file then
-	local data_out = core.write_json(n_list, true):gsub("\"remove\" : null", "\"remove\" : []")
+	local data_out = core.write_json(n_list, true)
+
+	-- FIXME: how to do this with a single regex?
+	data_out = data_out:gsub("\"remove\" : null", "\"remove\" : []")
+	data_out = data_out:gsub("\"replace\" : null", "\"replace\" : {}")
+
 	n_file:write(data_out)
 	n_file:close()
 end
@@ -49,15 +52,29 @@ for _, n in ipairs(n_list.remove) do
 	cleaner.log("debug", "Cleaning node: " .. n)
 
 	core.register_node(":" .. n, {
-		groups = {old=1},
+		groups = {to_remove=1},
 	})
 end
 
 core.register_abm({
-	nodenames = {"group:old"},
+	nodenames = {"group:to_remove"},
 	interval = 1,
 	chance = 1,
 	action = function(pos, node)
 		core.remove_node(pos)
 	end,
 })
+
+for n_old, n_new in pairs(n_list.replace) do
+	cleaner.log("debug", "Replacing node \"" .. n_old .. "\" with \"" .. n_new .. "\"")
+
+	core.register_abm({
+		nodenames = {n_old},
+		interval = 1,
+		chance = 1,
+		action = function(pos, node)
+			core.remove_node(pos)
+			core.place_node(pos, n_new)
+		end,
+	})
+end
