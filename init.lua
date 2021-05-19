@@ -1,5 +1,5 @@
 --[[ Cleaner mod
-     License: CC0
+	License: MIT
 ]]
 
 

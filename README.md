@@ -1,23 +1,20 @@
-## Cleaner mod for [Minetest][]
-
-
----
-### **Description:**
-
-A simple Minetest mod that can be used to remove unknown entities & nodes. Forked from [PilzAdam's ***clean*** mod][f.pilzadam].
-
+## Cleaner mod for Minetest
 
 ---
-### **Requirements:**
+### Description:
+
+A simple [Minetest][] mod that can be used to remove unknown entities & nodes. Forked from [PilzAdam's ***clean*** mod][f.pilzadam].
+
+---
+### Requirements:
 
 - Minetest 0.4.16 or newer
 - Depends: none
 
-
 ---
-### **Licensing:**
+### Licensing:
 
-[CC0](LICENSE.txt)
+[MIT](LICENSE.txt)
 
 
 [Minetest]: http://www.minetest.net/
