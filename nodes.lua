@@ -68,13 +68,24 @@ core.register_abm({
 for n_old, n_new in pairs(n_list.replace) do
 	cleaner.log("debug", "Replacing node \"" .. n_old .. "\" with \"" .. n_new .. "\"")
 
-	core.register_abm({
-		nodenames = {n_old},
-		interval = 1,
-		chance = 1,
-		action = function(pos, node)
-			core.remove_node(pos)
-			core.place_node(pos, n_new)
-		end,
+	core.register_node(":" .. n_old, {
+		groups = {to_replace=1},
 	})
 end
+
+core.register_abm({
+	nodenames = {"group:to_replace"},
+	interval = 1,
+	chance = 1,
+	action = function(pos, node)
+		core.remove_node(pos)
+
+		local new_node_name = n_list.replace[node.name]
+		local new_node = core.registered_nodes[new_node_name]
+		if new_node then
+			core.place_node(pos, new_node)
+		else
+			cleaner.log("error", "cannot replace with unregistered node \"" .. tostring(new_node_name) .. "\"")
+		end
+	end,
+})
