@@ -1,6 +1,7 @@
 
 0.5
 - changed license to MIT
+- "clean_entities" & "clean_nodes" files now use json format
 
 
 0.4
