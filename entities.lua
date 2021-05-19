@@ -1,19 +1,7 @@
 
-local function clean_duplicates(t)
-	local tmp = {}
-	for _, v in ipairs(t) do
-		tmp[v] = true
-	end
+local misc = dofile(cleaner.modpath .. "/misc_functions.lua")
 
-	t = {}
-	for k in pairs(tmp) do
-		table.insert(t, k)
-	end
-
-	return t
-end
-
--- Populate entities list from file in world path
+-- populate entities list from file in world path
 local e_list = {remove={}}
 local e_path = core.get_worldpath() .. "/clean_entities.json"
 local e_file = io.open(e_path, "r")
@@ -35,8 +23,8 @@ e_file = io.open(e_path_old, "r")
 if e_file then
 	cleaner.log("action", "found deprecated clean_entities.txt, converting to json")
 
-	local data = string.split(e_file:read("*a"), "\n")
-	for _, e in ipairs(data) do
+	local data_in = string.split(e_file:read("*a"), "\n")
+	for _, e in ipairs(data_in) do
 		e = e:trim()
 		if e ~= "" and e:sub(1, 1) ~= "#" then
 			table.insert(e_list.remove, e)
@@ -47,13 +35,13 @@ if e_file then
 	os.rename(e_path_old, e_path_old .. ".bak") -- don't read deprecated file again
 end
 
-e_list.remove = clean_duplicates(e_list.remove)
+e_list.remove = misc.clean_duplicates(e_list.remove)
 
 -- update json file with any changes
 e_file = io.open(e_path, "w")
 if e_file then
-	local data = core.write_json(e_list, true):gsub("\"remove\" : null", "\"remove\" : []")
-	e_file:write(data)
+	local data_out = core.write_json(e_list, true):gsub("\"remove\" : null", "\"remove\" : []")
+	e_file:write(data_out)
 	e_file:close()
 end
 

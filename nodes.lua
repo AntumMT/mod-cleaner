@@ -1,35 +1,54 @@
 
-local old_nodes = {}
+local misc = dofile(cleaner.modpath .. "/misc_functions.lua")
 
--- Populate nodes list from file in world path
-local n_list = nil
-local n_path = core.get_worldpath() .. "/clean_nodes.txt"
+-- populate nodes list from file in world path
+local n_list = {remove={}}
+local n_path = core.get_worldpath() .. "/clean_nodes.json"
 local n_file = io.open(n_path, "r")
 
 if n_file then
-	n_list = n_file:read("*a")
+	local data_in = core.parse_json(n_file:read("*a"))
 	n_file:close()
-else
-	-- Create empty file
-	n_file = io.open(n_path, "w")
-	if n_file then
-		n_file:close()
+	if data_in then
+		for _, n in ipairs(data_in.remove) do
+			table.insert(n_list.remove, n)
+		end
 	end
 end
 
-if n_list then
-	cleaner.log("debug", "Loading nodes to clean from file ...")
+-- backward compat
+local n_path_old = core.get_worldpath() .. "/clean_nodes.txt"
+n_file = io.open(n_path_old, "r")
 
-	n_list = string.split(n_list, "\n")
-	for _, node_name in ipairs(n_list) do
-		table.insert(old_nodes, node_name)
+if n_file then
+	cleaner.log("action", "found deprecated clean_nodes.txt, converting to json")
+
+	local data_in = string.split(n_file:read("*a"), "\n")
+	for _, e in ipairs(data_in) do
+		e = e:trim()
+		if e ~= "" and e:sub(1, 1) ~= "#" then
+			table.insert(n_list.remove, e)
+		end
 	end
+
+	n_file:close()
+	os.rename(n_path_old, n_path_old .. ".bak") -- don't read deprecated file again
 end
 
-for _, node_name in ipairs(old_nodes) do
-	cleaner.log("debug", "Cleaning node: " .. node_name)
+n_list.remove = misc.clean_duplicates(n_list.remove)
 
-	core.register_node(":" .. node_name, {
+-- update json file with any changes
+n_file = io.open(n_path, "w")
+if n_file then
+	local data_out = core.write_json(n_list, true):gsub("\"remove\" : null", "\"remove\" : []")
+	n_file:write(data_out)
+	n_file:close()
+end
+
+for _, n in ipairs(n_list.remove) do
+	cleaner.log("debug", "Cleaning node: " .. n)
+
+	core.register_node(":" .. n, {
 		groups = {old=1},
 	})
 end
@@ -39,6 +58,6 @@ core.register_abm({
 	interval = 1,
 	chance = 1,
 	action = function(pos, node)
-			core.remove_node(pos)
+		core.remove_node(pos)
 	end,
 })
