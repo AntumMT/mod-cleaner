@@ -1,3 +1,2 @@
 
 TODO:
-- allow nodes to be cleaned to be replaced by another node
