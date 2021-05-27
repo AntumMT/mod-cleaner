@@ -34,6 +34,7 @@ end
 local scripts = {
 	"entities",
 	"nodes",
+	"items",
 }
 
 for _, script in ipairs(scripts) do

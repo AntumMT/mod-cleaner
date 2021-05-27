@@ -3,6 +3,7 @@
 - changed license to MIT
 - "clean_entities" & "clean_nodes" files now use json format
 - nodes can be replaced with other nodes
+- items can be replaced with other items (<world_path>/clean_items.json file)
 
 
 0.4
