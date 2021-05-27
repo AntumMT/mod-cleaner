@@ -1,26 +1,27 @@
 
-0.5
+v1.0
+----
 - changed license to MIT
 - "clean_entities" & "clean_nodes" files now use json format
 - nodes can be replaced with other nodes
 - items can be replaced with other items (<world_path>/clean_items.json file)
 
-
-0.4
+v0.4
+----
 - changed technical name to "cleaner"
 - re-added functionality to clean nodes
 
-
-0.3
+v0.3
+----
 - removed functionality for cleaning anything other than entities
 
-
-0.2
+v0.2
+----
 - changed license to CC0
 - added some log output
 - entities to be cleaned can be configured & loaded from world directory
 
-
-0.1
+v0.1
+----
 - forked from PilzAdam's "clean" mod @ forum post updated: 2013-06-08
 - replaced deprecated call to "minetest.env"
