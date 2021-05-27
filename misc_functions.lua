@@ -1,4 +1,10 @@
 
+--- Cleans duplicate entries from indexed table.
+--
+--  @local
+--  @function clean_duplicates
+--  @tparam table t
+--  @treturn table
 local function clean_duplicates(t)
 	local tmp = {}
 	for _, v in ipairs(t) do
