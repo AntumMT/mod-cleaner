@@ -3,7 +3,7 @@
 ---
 ### Description:
 
-A [Minetest][] mod that can be used to remove/replace unknown entities, nodes, & items. Forked from [PilzAdam's ***clean*** mod][f.pilzadam].
+A [Minetest][] mod that can be used to remove/replace unknown entities, nodes, & items. Originally forked from [PilzAdam's ***clean*** mod][f.pilzadam].
 
 ---
 ### Licensing:
