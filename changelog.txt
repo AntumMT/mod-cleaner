@@ -1,4 +1,9 @@
 
+v1.1
+----
+- uses "register_lbm" with "run_at_every_load" instead of "register_abm" to save resources
+	- suggested by bell07 ( https://forum.minetest.net/viewtopic.php?p=325519#p325519 )
+
 v1.0
 ----
 - changed license to MIT

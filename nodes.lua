@@ -56,10 +56,10 @@ for _, n in ipairs(n_list.remove) do
 	})
 end
 
-core.register_abm({
+core.register_lbm({
+	name = "cleaner:remove_nodes",
 	nodenames = {"group:to_remove"},
-	interval = 1,
-	chance = 1,
+	run_at_every_load = true,
 	action = function(pos, node)
 		core.remove_node(pos)
 	end,
@@ -73,10 +73,10 @@ for n_old, n_new in pairs(n_list.replace) do
 	})
 end
 
-core.register_abm({
+core.register_lbm({
+	name = "cleaner:replace_nodes",
 	nodenames = {"group:to_replace"},
-	interval = 1,
-	chance = 1,
+	run_at_every_load = true,
 	action = function(pos, node)
 		core.remove_node(pos)
 
