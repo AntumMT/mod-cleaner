@@ -1,0 +1,234 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Cleaner mod for Minetest</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>Cleaner</h1>
+
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Functions">Functions</a></li>
+</ul>
+
+
+<h2>Topics</h2>
+<ul class="">
+  <li><strong>api</strong></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Topic <code>api</code></h1>
+<p>Cleaner API</p>
+<p>
+
+</p>
+
+
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#cleaner.get_replace_items">cleaner.get_replace_items ()</a></td>
+	<td class="summary">Retrieves list of items to be replaced.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#cleaner.get_replace_nodes">cleaner.get_replace_nodes ()</a></td>
+	<td class="summary">Retrieves list of nodes to be replaced.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#cleaner.remove_entity">cleaner.remove_entity (src)</a></td>
+	<td class="summary">Registers an entity to be removed.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#cleaner.remove_node">cleaner.remove_node (src)</a></td>
+	<td class="summary">Registers a node to be removed.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#cleaner.replace_item">cleaner.replace_item (src, tgt)</a></td>
+	<td class="summary">Registeres an item to be replaced.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#cleaner.replace_node">cleaner.replace_node (src, tgt)</a></td>
+	<td class="summary">Registers a node to be replaced.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Functions"></a>Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "cleaner.get_replace_items"></a>
+    <strong>cleaner.get_replace_items ()</strong>
+    </dt>
+    <dd>
+    Retrieves list of items to be replaced.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+        Items to be replaced.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "cleaner.get_replace_nodes"></a>
+    <strong>cleaner.get_replace_nodes ()</strong>
+    </dt>
+    <dd>
+    Retrieves list of nodes to be replaced.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+        Nodes to be replaced.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "cleaner.remove_entity"></a>
+    <strong>cleaner.remove_entity (src)</strong>
+    </dt>
+    <dd>
+    Registers an entity to be removed.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">src</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Entity technical name.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "cleaner.remove_node"></a>
+    <strong>cleaner.remove_node (src)</strong>
+    </dt>
+    <dd>
+    Registers a node to be removed.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">src</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Node technical name.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "cleaner.replace_item"></a>
+    <strong>cleaner.replace_item (src, tgt)</strong>
+    </dt>
+    <dd>
+    Registeres an item to be replaced.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">src</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Technical name of item to be replaced.
+        </li>
+        <li><span class="parameter">tgt</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Technical name of item to be used in place.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "cleaner.replace_node"></a>
+    <strong>cleaner.replace_node (src, tgt)</strong>
+    </dt>
+    <dd>
+    Registers a node to be replaced.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">src</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Technical name of node to be replaced.
+        </li>
+        <li><span class="parameter">tgt</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Technical name of node to be used in place.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
+<i style="float:right;">Last updated 2021-07-12 08:57:46 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>
