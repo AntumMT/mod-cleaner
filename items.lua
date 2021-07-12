@@ -26,7 +26,7 @@ if i_file then
 end
 
 -- register actions for after server startup
-core.after(0, function()
+core.register_on_mods_loaded(function()
 	for i_old, i_new in pairs(i_list.replace) do
 		cleaner.log("action", "replacing item \"" .. i_old .. "\" with \"" .. i_new .. "\"")
 
