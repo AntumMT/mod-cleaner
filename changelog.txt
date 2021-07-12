@@ -1,4 +1,8 @@
 
+v1.2
+----
+- added API
+
 v1.1
 ----
 - uses "register_lbm" with "run_at_every_load" instead of "register_abm" to save resources

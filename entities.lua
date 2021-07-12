@@ -46,10 +46,5 @@ end
 
 for _, e in ipairs(e_list.remove) do
 	cleaner.log("debug", "Cleaning entity: " .. e)
-
-	core.register_entity(":" .. e, {
-		on_activate = function(self, staticdata)
-			self.object:remove()
-		end,
-	})
+	cleaner.remove_entity(e)
 end

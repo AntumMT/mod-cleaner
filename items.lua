@@ -25,9 +25,13 @@ if i_file then
 	i_file:close()
 end
 
+for i_old, i_new in pairs(i_list.replace) do
+	cleaner.replace_item(i_old, i_new)
+end
+
 -- register actions for after server startup
 core.register_on_mods_loaded(function()
-	for i_old, i_new in pairs(i_list.replace) do
+	for i_old, i_new in pairs(cleaner.get_replace_items()) do
 		cleaner.log("action", "replacing item \"" .. i_old .. "\" with \"" .. i_new .. "\"")
 
 		if not core.registered_items[i_old] then

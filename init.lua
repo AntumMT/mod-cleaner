@@ -32,6 +32,7 @@ end
 
 
 local scripts = {
+	"api",
 	"entities",
 	"nodes",
 	"items",
