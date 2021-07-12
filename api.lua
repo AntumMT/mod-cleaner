@@ -62,3 +62,40 @@ function cleaner.replace_node(src, tgt)
 
 	replace_nodes[src] = tgt
 end
+
+
+--- Unsafe methods.
+--
+--  Enabled with `cleaner.unsafe` setting.
+--
+--  @section unsafe
+
+
+if cleaner.unsafe then
+	--- Removes an ore definition.
+	--
+	--  @tparam string src Ore technical name.
+	function cleaner.remove_ore(src)
+		local remove_ids = {}
+		local total_removed = 0
+		local registered = false
+
+		for id, def in pairs(core.registered_ores) do
+			if def.ore == src then
+				table.insert(remove_ids, id)
+				registered = true
+			end
+		end
+
+		for _, id in ipairs(remove_ids) do
+			core.registered_ores[id] = nil
+			if core.registered_ores[id] then
+				cleaner.log("error", "unable to unregister ore " .. id)
+			else
+				total_removed = total_removed + 1
+			end
+		end
+
+		return registered, total_removed
+	end
+end

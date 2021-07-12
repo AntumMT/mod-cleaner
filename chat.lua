@@ -239,3 +239,40 @@ core.register_chatcommand("find_unknown_nodes", {
 		return true
 	end,
 })
+
+
+--- Unsafe commands.
+--
+--  Enabled with `cleaner.unsafe` setting.
+--
+--  @section unsafe
+
+
+if cleaner.unsafe then
+	--- Registers an ore to be removed.
+	--
+	--  @chatcmd remove_ore
+	--  @param ore Ore technical name.
+	core.register_chatcommand("remove_ore", {
+		privs = {server=true},
+		description = "Remove an ore from game.",
+		params = "<ore>",
+		func = function(name, param)
+			if param:find(" ") then
+				return false, "Too many parameters."
+			end
+
+			core.after(0, function()
+				local registered, total_removed = cleaner.remove_ore(param)
+
+				if not registered then
+					core.chat_send_player(name, "Ore \"" .. param .. "\" not found, not unregistering.")
+				else
+					core.chat_send_player(name, "Unregistered " .. total_removed .. " ores (this will be undone after server restart).")
+				end
+			end)
+
+			return true
+		end
+	})
+end
