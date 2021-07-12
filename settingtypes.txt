@@ -1,0 +1,5 @@
+
+# Enables unsafe methods.
+#
+# - cleaner.remove_ore
+cleaner.unsafe (Enable unsafe methods) bool false

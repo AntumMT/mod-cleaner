@@ -8,6 +8,7 @@ v1.2
 	- replace_item
 	- replace_node
 	- find_unknown_nodes
+- added setting for enabling "unsafe" methods & commands
 
 v1.1
 ----

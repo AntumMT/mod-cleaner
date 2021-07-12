@@ -2,5 +2,4 @@
 TODO:
 - add localization support
 - add support for unregistering/replacing ores
-- add "unsafe" setting for enabling unregistering ores
 - change API method names to "register_[replace/remove]_*"
