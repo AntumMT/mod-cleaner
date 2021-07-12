@@ -10,4 +10,4 @@ cd "${root}"
 rm -rf "${docs}/reference"
 
 # Create new files
-ldoc -c "${config}" -d "${docs}/reference" "${root}/api.lua"
+ldoc -c "${config}" -d "${docs}/reference" "${root}"
