@@ -33,6 +33,7 @@ end
 
 local scripts = {
 	"api",
+	"chat",
 	"entities",
 	"nodes",
 	"items",

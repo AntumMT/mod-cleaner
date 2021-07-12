@@ -2,6 +2,12 @@
 v1.2
 ----
 - added API
+- added chat commands:
+	- remove_entity
+	- remove_node
+	- replace_item
+	- replace_node
+	- find_unknown_nodes
 
 v1.1
 ----

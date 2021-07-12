@@ -1,6 +1,5 @@
 
 TODO:
-- add chat commands to update cleaning in-game
 - add localization support
 - add support for unregistering/replacing ores
 - add "unsafe" setting for enabling unregistering ores
