@@ -28,7 +28,7 @@ end
 --  @tparam string src Entity technical name.
 function cleaner.remove_entity(src)
 	core.register_entity(":" .. src, {
-		on_activate = function(self, staticdata)
+		on_activate = function(self, ...)
 			self.object:remove()
 		end,
 	})
