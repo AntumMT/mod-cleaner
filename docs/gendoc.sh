@@ -7,7 +7,7 @@ config="${docs}/config.ld"
 cd "${root}"
 
 # Clean old files
-rm -rf "${docs}/api"
+rm -rf "${docs}/reference"
 
 # Create new files
-ldoc -c "${config}" -d "${docs}/api" "${root}/api.lua"
+ldoc -c "${config}" -d "${docs}/reference" "${root}/api.lua"
