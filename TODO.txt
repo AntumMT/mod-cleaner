@@ -1,2 +1,4 @@
 
 TODO:
+- add chat commands to update cleaning in-game
+- add API
