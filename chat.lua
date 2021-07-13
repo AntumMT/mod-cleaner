@@ -21,26 +21,59 @@ local function pos_list(ppos, radius)
 	return plist
 end
 
+local param_desc = {
+	["radius"] = S("Search radius."),
+	["entity"] = S("Entity technical name."),
+	["node"] = S("Node technical name."),
+	["old_node"] = S("Technical name of node to be replaced."),
+	["new_node"] = S("Technical name of node to be used in place."),
+	["old_item"] = S("Technical name of item to be replaced."),
+	["new_item"] = S("Technical name of item to be used in place."),
+	["ore"] = S("Ore technical name."),
+}
 
-local help_repo = {
+local function format_help(cmd, param_string, params)
+	local retval = S("Usage:") .. "\n  /" .. cmd .. " " .. param_string
+		.. "\n"
+
+	local p_count = 0
+	for _, p in ipairs(params) do
+		if p_count == 0 then
+			retval = retval .. "\n" .. S("Params:")
+		end
+
+		retval = retval .. "\n  " .. S(p) .. ": " .. param_desc[p]
+		p_count = p_count + 1
+	end
+
+	return retval
+end
+
+local cmd_repo = {
 	entity = {
-		remove_params = "<" .. S("entity") .. "> [" .. S("radius") .. "]",
+		cmd = "remove_entity",
+		params = "<" .. S("entity") .. "> [" .. S("radius") .. "]",
 	},
 	node = {
-		remove_params = "<" .. S("node") .. "> [" .. S("radius") .. "]",
-		replace_params = "<" .. S("old_node") .. "> <" .. S("new_node") .. "> [" .. S("radius") .. "]",
+		cmd_rem = "remove_node",
+		cmd_rep = "replace_node",
+		cmd_find = "find_unknown_nodes",
+		params_rem = "<" .. S("node") .. "> [" .. S("radius") .. "]",
+		params_rep = "<" .. S("old_node") .. "> <" .. S("new_node") .. "> [" .. S("radius") .. "]",
+		params_find = "[" .. S("radius") .. "]",
 	},
 	item = {
-		replace_params = "<" .. S("old_item") .. "> <" .. S("new_item") .. ">",
+		cmd = "replace_item",
+		params = "<" .. S("old_item") .. "> <" .. S("new_item") .. ">",
 	},
 	ore = {
-		remove_params = "<" .. S("ore") .. ">",
+		cmd = "remove_ore",
+		params = "<" .. S("ore") .. ">",
 	},
 	param = {
 		missing = S("Missing parameter."),
 		excess = S("Too many parameters."),
 		mal_radius = S("Radius must be a number."),
-		opt_radius = "[" .. S("radius") .. "]",
 	},
 }
 
@@ -49,10 +82,11 @@ local help_repo = {
 --
 --  @chatcmd remove_entity
 --  @param entity Entity technical name.
-core.register_chatcommand("remove_entity", {
+--  @tparam[opt] int radius
+core.register_chatcommand(cmd_repo.entity.cmd, {
 	privs = {server=true},
 	description = S("Remove an entity from game."),
-	params = help_repo.entity.remove_params,
+	params = cmd_repo.entity.params,
 	func = function(name, param)
 		local entity
 		local radius = 100
@@ -64,29 +98,38 @@ core.register_chatcommand("remove_entity", {
 			entity = param
 		end
 
+		local err
 		if not entity or entity:trim() == "" then
-			return false, help_repo.param.missing
+			err = cmd_repo.param.missing
 		elseif not radius then
-			return false, help_repo.param.mal_radius
+			err = cmd_repo.param.mal_radius
+		end
+
+		if err then
+			return false, err .. "\n\n"
+				.. format_help(cmd_repo.entity.cmd, cmd_repo.entity.params, {"entity", "radius"})
 		end
 
 		local player = core.get_player_by_name(name)
 
+		local total_removed = 0
 		for _, object in ipairs(core.get_objects_inside_radius(player:get_pos(), radius)) do
 			local lent = object:get_luaentity()
 
 			if lent then
 				if lent.name == entity then
 					object:remove()
+					total_removed = total_removed + 1
 				end
 			else
 				if object:get_properties().infotext == entity then
 					object:remove()
+					total_removed = total_removed + 1
 				end
 			end
 		end
 
-		return true
+		return true, S("Removed @1 entities.", total_removed)
 	end,
 })
 
@@ -94,10 +137,11 @@ core.register_chatcommand("remove_entity", {
 --
 --  @chatcmd remove_node
 --  @param node Node technical name.
-core.register_chatcommand("remove_node", {
+--  @tparam[opt] int radius
+core.register_chatcommand(cmd_repo.node.cmd_rem, {
 	privs = {server=true},
 	description = S("Remove a node from game."),
-	params = help_repo.node.remove_params,
+	params = cmd_repo.node.params_rem,
 	func = function(name, param)
 		local nname
 		local radius = 100
@@ -109,22 +153,30 @@ core.register_chatcommand("remove_node", {
 			nname = param
 		end
 
+		local err
 		if not nname or nname:trim() == "" then
-			return false, help_repo.param.missing
+			err = cmd_repo.param.missing
 		elseif not radius then
-			return false, help_repo.param.mal_radius
+			err = cmd_repo.param.mal_radius
+		end
+
+		if err then
+			return false, err .. "\n\n"
+				.. format_help(cmd_repo.node.cmd_rem, cmd_repo.node.params_rem, {"node", "radius"})
 		end
 
 		local ppos = core.get_player_by_name(name):get_pos()
 
+		local total_removed = 0
 		for _, npos in ipairs(pos_list(ppos, radius)) do
 			local node = core.get_node_or_nil(npos)
 			if node and node.name == nname then
 				core.remove_node(npos)
+				total_removed = total_removed + 1
 			end
 		end
 
-		return true
+		return true, S("Removed @1 nodes.", total_removed)
 	end,
 })
 
@@ -148,13 +200,15 @@ end
 --  @chatcmd replace_item
 --  @param old_item Technical name of item to replace.
 --  @param new_item Technical name of item to be used in place.
-core.register_chatcommand("replace_item", {
+core.register_chatcommand(cmd_repo.item.cmd, {
 	privs = {server=true},
 	description = S("Replace an item in game."),
-	params = help_repo.item.replace_params,
+	params = cmd_repo.item.params,
 	func = function(name, param)
+		local help = format_help(cmd_repo.item.cmd, cmd_repo.item.params, {"old_item", "new_item"})
+
 		if not param:find(" ") then
-			return false, help_repo.param.missing
+			return false, cmd_repo.param.missing .. "\n\n" .. help
 		end
 
 		local src = param:split(" ")
@@ -166,22 +220,27 @@ core.register_chatcommand("replace_item", {
 			return false, msg
 		end
 
-		return true
+		return true, S("Success!")
 	end,
 })
 
 --- Replaces nearby nodes.
 --
---  @chatcmd replace_item
+--  FIXME: sometimes nodes on top disappear
+--
+--  @chatcmd replace_node
 --  @param old_node Technical name of node to replace.
 --  @param new_node Technical name of node to be used in place.
-core.register_chatcommand("replace_node", {
+--  @tparam[opt] int radius
+core.register_chatcommand(cmd_repo.node.cmd_rep, {
 	privs = {server=true},
 	description = S("Replace a node in game."),
-	params = help_repo.node.replace_params,
+	params = cmd_repo.node.params_rep,
 	func = function(name, param)
+		local help = format_help(cmd_repo.node.cmd_rep, cmd_repo.node.params_rep, {"old_node", "new_node", "radius"})
+
 		if not param:find(" ") then
-			return false, help_repo.param.missing
+			return false, cmd_repo.param.missing .. "\n\n" .. help
 		end
 
 		local radius = 100
@@ -194,7 +253,7 @@ core.register_chatcommand("replace_node", {
 		end
 
 		if not radius then
-			return false, help_repo.param.mal_radius
+			return false, cmd_repo.param.mal_radius .. "\n\n" .. help
 		end
 
 		local new_node = core.registered_nodes[tgt]
@@ -209,13 +268,11 @@ core.register_chatcommand("replace_node", {
 			if node and node.name == src then
 				core.remove_node(npos)
 				core.place_node(npos, new_node)
-
 				total_replaced = total_replaced + 1
 			end
 		end
 
-		core.chat_send_player(name, S("Replaced @1 nodes.", total_replaced))
-		return true
+		return true, S("Replaced @1 nodes.", total_replaced)
 	end,
 })
 
@@ -223,13 +280,15 @@ core.register_chatcommand("replace_node", {
 --
 --  @chatcmd find_unknown_nodes
 --  @tparam[opt] int radius Search radius.
-core.register_chatcommand("find_unknown_nodes", {
+core.register_chatcommand(cmd_repo.node.cmd_find, {
 	privs = {server=true},
 	description = S("Find names of unknown nodes."),
-	params = help_repo.param.opt_radius,
+	params = cmd_repo.node.params_find,
 	func = function(name, param)
+		local help = format_help(cmd_repo.node.cmd_find, cmd_repo.node.params_find, {"radius"})
+
 		if param:find(" ") then
-			return false, help_repo.param.excess
+			return false, cmd_repo.param.excess .. "\n\n" .. help
 		end
 
 		local radius = 100
@@ -238,7 +297,7 @@ core.register_chatcommand("find_unknown_nodes", {
 		end
 
 		if not radius then
-			return false, help_repo.param.mal_radius
+			return false, cmd_repo.param.mal_radius .. "\n\n" .. help
 		end
 
 		local ppos = core.get_player_by_name(name):get_pos()
@@ -256,13 +315,14 @@ core.register_chatcommand("find_unknown_nodes", {
 			end
 		end
 
+		local msg
 		if #unknown_nodes > 0 then
-			core.chat_send_player(name, S("Found unknown nodes: @1", table.concat(unknown_nodes, ", ")))
+			msg = S("Found unknown nodes: @1", table.concat(unknown_nodes, ", "))
 		else
-			core.chat_send_player(name, S("No unknown nodes found."))
+			msg = S("No unknown nodes found.")
 		end
 
-		return true
+		return true, msg
 	end,
 })
 
@@ -279,26 +339,34 @@ if cleaner.unsafe then
 	--
 	--  @chatcmd remove_ore
 	--  @param ore Ore technical name.
-	core.register_chatcommand("remove_ore", {
+	core.register_chatcommand(cmd_repo.ore.cmd, {
 		privs = {server=true},
 		description = S("Remove an ore from game."),
-		params = help_repo.ore.remove_params,
+		params = cmd_repo.ore.params,
 		func = function(name, param)
-			if param:find(" ") then
-				return false, help_repo.param.excess
+			local err
+			if not param or param:trim() == "" then
+				err = cmd_repo.param.missing
+			elseif param:find(" ") then
+				err = cmd_repo.param.excess
 			end
 
-			core.after(0, function()
-				local registered, total_removed = cleaner.remove_ore(param)
+			if err then
+				return false, err .. "\n\n" .. format_help(cmd_repo.ore.cmd, cmd_repo.ore.params, {"ore"})
+			end
 
-				if not registered then
-					core.chat_send_player(name, S('Ore "@1" not found, not unregistering.', param))
-				else
-					core.chat_send_player(name, S("Unregistered @1 ores (this will be undone after server restart).", total_removed))
-				end
-			end)
+			local success = false
+			local msg
+			local registered, total_removed = cleaner.remove_ore(param)
 
-			return true
+			if not registered then
+				msg = S('Ore "@1" not found, not unregistering.', param)
+			else
+				msg = S("Unregistered @1 ores (this will be undone after server restart).", total_removed)
+				success = true
+			end
+
+			return success, msg
 		end
 	})
 end
