@@ -180,6 +180,22 @@ core.register_chatcommand(cmd_repo.node.cmd_rem, {
 	end,
 })
 
+local function update_list(inv, listname, src, tgt)
+	local list = inv:get_list(listname)
+	if not list then
+		cleaner.log("warning", "unknown player list: " .. listname)
+		return
+	end
+
+	for idx, stack in pairs(list) do
+		if stack:get_name() == src then
+			local new_stack = ItemStack(tgt)
+			new_stack:set_count(stack:get_count())
+			inv:set_stack(listname, idx, new_stack)
+		end
+	end
+end
+
 local function replace_item(src, tgt)
 	if not core.registered_items[tgt] then
 		return false, S('Cannot use unknown item "@1" as replacement.', tgt)
@@ -191,16 +207,16 @@ local function replace_item(src, tgt)
 
 	core.register_alias(src, tgt)
 
+	local bags = core.get_modpath("bags") ~= nil
+
 	-- update player inventories
 	for _, player in ipairs(core.get_connected_players()) do
 		local pinv = player:get_inventory()
+		update_list(pinv, "main", src, tgt)
 
-		for idx, stack in pairs(pinv:get_list("main")) do
-			if stack:get_name() == src then
-				local new_stack = ItemStack(tgt)
-				new_stack:set_count(stack:get_count())
-
-				pinv:set_stack("main", idx, new_stack)
+		if bags then
+			for i = 1, 4 do
+				update_list(pinv, "bag" .. i .. "contents", src, tgt)
 			end
 		end
 	end
