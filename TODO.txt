@@ -2,3 +2,4 @@
 TODO:
 - update world file when chat commands are used
 - update player inventories when items are replaced
+- fix top nodes disappearing with /replace_node command
