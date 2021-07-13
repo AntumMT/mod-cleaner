@@ -26,7 +26,7 @@ if i_file then
 end
 
 for i_old, i_new in pairs(i_list.replace) do
-	cleaner.replace_item(i_old, i_new)
+	cleaner.register_item_replacement(i_old, i_new)
 end
 
 -- register actions for after server startup

@@ -50,7 +50,7 @@ end
 
 for _, n in ipairs(n_list.remove) do
 	cleaner.log("debug", "Cleaning node: " .. n)
-	cleaner.remove_node(n)
+	cleaner.register_node_removal(n)
 end
 
 core.register_lbm({
@@ -64,7 +64,7 @@ core.register_lbm({
 
 for n_old, n_new in pairs(n_list.replace) do
 	cleaner.log("debug", "Replacing node \"" .. n_old .. "\" with \"" .. n_new .. "\"")
-	cleaner.replace_node(n_old, n_new)
+	cleaner.register_node_replacement(n_old, n_new)
 end
 
 core.register_lbm({

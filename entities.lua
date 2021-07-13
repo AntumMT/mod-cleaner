@@ -46,5 +46,5 @@ end
 
 for _, e in ipairs(e_list.remove) do
 	cleaner.log("debug", "Cleaning entity: " .. e)
-	cleaner.remove_entity(e)
+	cleaner.register_entity_removal(e)
 end
