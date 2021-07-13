@@ -181,9 +181,14 @@ core.register_chatcommand(cmd_repo.node.cmd_rem, {
 })
 
 local function update_list(inv, listname, src, tgt)
+	if not inv then
+		cleaner.log("error", "cannot update list of unknown inventory")
+		return
+	end
+
 	local list = inv:get_list(listname)
 	if not list then
-		cleaner.log("warning", "unknown player list: " .. listname)
+		cleaner.log("warning", "unknown inventory list: " .. listname)
 		return
 	end
 
