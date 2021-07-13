@@ -1,3 +1,4 @@
 
 TODO:
 - add localization support
+- update world file when chat commands are used
