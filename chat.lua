@@ -213,6 +213,7 @@ local function replace_item(src, tgt)
 	core.register_alias(src, tgt)
 
 	local bags = core.get_modpath("bags") ~= nil
+	local armor = core.get_modpath("3d_armor") ~= nil
 
 	-- update player inventories
 	for _, player in ipairs(core.get_connected_players()) do
@@ -223,6 +224,11 @@ local function replace_item(src, tgt)
 			for i = 1, 4 do
 				update_list(pinv, "bag" .. i .. "contents", src, tgt)
 			end
+		end
+
+		if armor then
+			local armor_inv = core.get_inventory({type="detached", name=player:get_player_name() .. "_armor"})
+			update_list(armor_inv, "armor", src, tgt)
 		end
 	end
 
