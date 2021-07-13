@@ -19,33 +19,58 @@ A [Minetest][] mod that can be used to remove/replace unknown entities, nodes, &
 ---
 ### Usage:
 
-There are three files in the world path that can be edited: `clean_entities.json`, `clean_nodes.json`, & `clean_items.json`. If they do not already exist with the server is started they will be created automatically.
+Registering items, entities, etc. for cleaning can be done in `cleaner.json` in the world directory. If it does not exist it will be created automatically when the server is started.
 
-They are formatted as follows:
+It is formatted as follows:
 ```json
 {
-	"remove":
-	[
-		"creatures:ghost",
-		"creatures:chicken",
-		"creatures:sheep",
-		"creatures:skeleton",
-		"creatures:zombie",
-		"creatures:oerkki",
-		"creatures:shark",
-	],
-	"replace":
+	"entities" :
 	{
-		"biofuel:biofuel":"default:leaves",
-		"helicopter:heli":"default:copper_lump",
-		"spawneggs:ghost":"alternode:key",
-		"spawneggs:oerkki":"default:mese_crystal",
-		"unifieddyes:airbrush":"default:coal_lump",
+		"remove" : []
+	},
+	"items" :
+	{
+		"replace" : {}
+	},
+	"nodes" :
+	{
+		"remove" : [],
+		"replace" : {}
+	},
+	"ores" :
+	{
+		"remove" : []
+	}
+}
+```
+
+Cleaning nodes example:
+```json
+{
+	"nodes" :
+	{
+		"remove" : [
+			"old:node_1",
+			"old:node_2",
+		],
+		"replace" : {
+			"old:node_3" : "new:node_1",
+			"old:node_4" : "new:node_2",
+		}
 	},
 }
 ```
 
-`remove` key works for nodes & entities. `replace` key works for nodes & items. Their functions are self-explanatory.
+`remove` key works for nodes, entities, & ores. `replace` key works for nodes & items. Their functions are self-explanatory.
+
+#### Settings:
+
+```
+cleaner.unsafe
+- Enables unsafe methods & commands (remove_ore).
+- type:    bool
+- default: false
+```
 
 ---
 ### Links:
