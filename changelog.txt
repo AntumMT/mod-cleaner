@@ -11,6 +11,7 @@ v1.2
 - added setting for enabling "unsafe" methods & commands
 - added support for unregistering ores
 - all types are loaded from <world_path>/cleaner.json file
+- added localization support
 
 v1.1
 ----

@@ -4,6 +4,9 @@
 --  @topic commands
 
 
+local S = core.get_translator(cleaner.modname)
+
+
 local function pos_list(ppos, radius)
 	local plist = {}
 
@@ -19,14 +22,37 @@ local function pos_list(ppos, radius)
 end
 
 
+local help_repo = {
+	entity = {
+		remove_params = "<" .. S("entity") .. "> [" .. S("radius") .. "]",
+	},
+	node = {
+		remove_params = "<" .. S("node") .. "> [" .. S("radius") .. "]",
+		replace_params = "<" .. S("old_node") .. "> <" .. S("new_node") .. "> [" .. S("radius") .. "]",
+	},
+	item = {
+		replace_params = "<" .. S("old_item") .. "> <" .. S("new_item") .. ">",
+	},
+	ore = {
+		remove_params = "<" .. S("ore") .. ">",
+	},
+	param = {
+		missing = S("Missing parameter."),
+		excess = S("Too many parameters."),
+		mal_radius = S("Radius must be a number."),
+		opt_radius = "[" .. S("radius") .. "]",
+	},
+}
+
+
 --- Removes nearby entities.
 --
 --  @chatcmd remove_entity
 --  @param entity Entity technical name.
 core.register_chatcommand("remove_entity", {
 	privs = {server=true},
-	description = "Remove an entity from game.",
-	params = "<entity> [radius]",
+	description = S("Remove an entity from game."),
+	params = help_repo.entity.remove_params,
 	func = function(name, param)
 		local entity
 		local radius = 100
@@ -39,9 +65,9 @@ core.register_chatcommand("remove_entity", {
 		end
 
 		if not entity or entity:trim() == "" then
-			return false, "Must supply entity name."
+			return false, help_repo.param.missing
 		elseif not radius then
-			return false, "Radius must be a number."
+			return false, help_repo.param.mal_radius
 		end
 
 		local player = core.get_player_by_name(name)
@@ -70,8 +96,8 @@ core.register_chatcommand("remove_entity", {
 --  @param node Node technical name.
 core.register_chatcommand("remove_node", {
 	privs = {server=true},
-	description = "Remove a node from game.",
-	params = "<node> [radius]",
+	description = S("Remove a node from game."),
+	params = help_repo.node.remove_params,
 	func = function(name, param)
 		local nname
 		local radius = 100
@@ -84,9 +110,9 @@ core.register_chatcommand("remove_node", {
 		end
 
 		if not nname or nname:trim() == "" then
-			return false, "Must supply node name."
+			return false, help_repo.param.missing
 		elseif not radius then
-			return false, "Radius must be a number."
+			return false, help_repo.param.mal_radius
 		end
 
 		local ppos = core.get_player_by_name(name):get_pos()
@@ -104,7 +130,7 @@ core.register_chatcommand("remove_node", {
 
 local function replace_item(src, tgt)
 	if not core.registered_items[tgt] then
-		return false, "Cannot use unknown item \"" .. tgt .. "\" as replacement."
+		return false, S('Cannot use unknown item "@1" as replacement.', tgt)
 	end
 
 	if core.registered_items[src] then
@@ -124,11 +150,11 @@ end
 --  @param new_item Technical name of item to be used in place.
 core.register_chatcommand("replace_item", {
 	privs = {server=true},
-	description = "Replace an item in game.",
-	params = "<old_item> <new_item>",
+	description = S("Replace an item in game."),
+	params = help_repo.item.replace_params,
 	func = function(name, param)
 		if not param:find(" ") then
-			return false, "Not enough parameters."
+			return false, help_repo.param.missing
 		end
 
 		local src = param:split(" ")
@@ -151,11 +177,11 @@ core.register_chatcommand("replace_item", {
 --  @param new_node Technical name of node to be used in place.
 core.register_chatcommand("replace_node", {
 	privs = {server=true},
-	description = "Replace a node in game.",
-	params = "<old_node> <new_node> [radius]",
+	description = S("Replace a node in game."),
+	params = help_repo.node.replace_params,
 	func = function(name, param)
 		if not param:find(" ") then
-			return false, "Not enough parameters."
+			return false, help_repo.param.missing
 		end
 
 		local radius = 100
@@ -168,12 +194,12 @@ core.register_chatcommand("replace_node", {
 		end
 
 		if not radius then
-			return false, "Radius must be a number."
+			return false, help_repo.param.mal_radius
 		end
 
 		local new_node = core.registered_nodes[tgt]
 		if not new_node then
-			return false, "Cannot use unknown node \"" .. tgt .. "\" as replacement."
+			return false, S('Cannot use unknown node "@1" as replacement.', tgt)
 		end
 
 		local total_replaced = 0
@@ -188,7 +214,7 @@ core.register_chatcommand("replace_node", {
 			end
 		end
 
-		core.chat_send_player(name, "Replaced " .. total_replaced .. " nodes.")
+		core.chat_send_player(name, S("Replaced @1 nodes.", total_replaced))
 		return true
 	end,
 })
@@ -199,11 +225,11 @@ core.register_chatcommand("replace_node", {
 --  @tparam[opt] int radius Search radius.
 core.register_chatcommand("find_unknown_nodes", {
 	privs = {server=true},
-	description = "Find names of unknown nodes.",
-	params = "[radius]",
+	description = S("Find names of unknown nodes."),
+	params = help_repo.param.opt_radius,
 	func = function(name, param)
 		if param:find(" ") then
-			return false, "Too many parameters."
+			return false, help_repo.param.excess
 		end
 
 		local radius = 100
@@ -212,7 +238,7 @@ core.register_chatcommand("find_unknown_nodes", {
 		end
 
 		if not radius then
-			return false, "Radius must be a number."
+			return false, help_repo.param.mal_radius
 		end
 
 		local ppos = core.get_player_by_name(name):get_pos()
@@ -231,9 +257,9 @@ core.register_chatcommand("find_unknown_nodes", {
 		end
 
 		if #unknown_nodes > 0 then
-			core.chat_send_player(name, "Found unknown nodes: " .. table.concat(unknown_nodes, ", "))
+			core.chat_send_player(name, S("Found unknown nodes: @1", table.concat(unknown_nodes, ", ")))
 		else
-			core.chat_send_player(name, "No unknown nodes found")
+			core.chat_send_player(name, S("No unknown nodes found."))
 		end
 
 		return true
@@ -255,20 +281,20 @@ if cleaner.unsafe then
 	--  @param ore Ore technical name.
 	core.register_chatcommand("remove_ore", {
 		privs = {server=true},
-		description = "Remove an ore from game.",
-		params = "<ore>",
+		description = S("Remove an ore from game."),
+		params = help_repo.ore.remove_params,
 		func = function(name, param)
 			if param:find(" ") then
-				return false, "Too many parameters."
+				return false, help_repo.param.excess
 			end
 
 			core.after(0, function()
 				local registered, total_removed = cleaner.remove_ore(param)
 
 				if not registered then
-					core.chat_send_player(name, "Ore \"" .. param .. "\" not found, not unregistering.")
+					core.chat_send_player(name, S('Ore "@1" not found, not unregistering.', param))
 				else
-					core.chat_send_player(name, "Unregistered " .. total_removed .. " ores (this will be undone after server restart).")
+					core.chat_send_player(name, S("Unregistered @1 ores (this will be undone after server restart).", total_removed))
 				end
 			end)
 

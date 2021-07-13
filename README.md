@@ -1,22 +1,18 @@
 ## Cleaner mod for Minetest
 
----
 ### Description:
 
 A [Minetest][] mod that can be used to remove/replace unknown entities, nodes, & items. Originally forked from [PilzAdam's ***clean*** mod][f.pilzadam].
 
----
 ### Licensing:
 
 [MIT](LICENSE.txt)
 
----
 ### Requirements:
 
-- Minetest 0.4.16 or newer
+- Minetest minimum version: 5.0
 - Depends: none
 
----
 ### Usage:
 
 Registering items, entities, etc. for cleaning can be done in `cleaner.json` in the world directory. If it does not exist it will be created automatically when the server is started.
@@ -72,7 +68,6 @@ cleaner.unsafe
 - default: false
 ```
 
----
 ### Links:
 
 - [![ContentDB](https://content.minetest.net/packages/AntumDeluge/cleaner/shields/title/)][ContentDB]
