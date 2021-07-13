@@ -72,6 +72,22 @@ end
 
 
 if cleaner.unsafe then
+	local remove_ores = {}
+
+	--- Retrieves list of ores to be removed.
+	--
+	--  @treturn table Ores to be replaced.
+	function cleaner.get_remove_ores()
+		return remove_ores
+	end
+
+	--- Registers an ore to be removed after server startup.
+	--
+	--  @tparam string src Ore technical name.
+	function cleaner.register_ore_removal(src)
+		table.insert(remove_ores, src)
+	end
+
 	--- Removes an ore definition.
 	--
 	--  @tparam string src Ore technical name.

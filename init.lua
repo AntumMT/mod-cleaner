@@ -43,6 +43,7 @@ local scripts = {
 	"entities",
 	"nodes",
 	"items",
+	"ores",
 }
 
 for _, script in ipairs(scripts) do

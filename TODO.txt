@@ -1,4 +1,3 @@
 
 TODO:
 - add localization support
-- add support for unregistering ores via world path file
