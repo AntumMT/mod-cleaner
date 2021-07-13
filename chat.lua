@@ -190,12 +190,25 @@ local function replace_item(src, tgt)
 	end
 
 	core.register_alias(src, tgt)
+
+	-- update player inventories
+	for _, player in ipairs(core.get_connected_players()) do
+		local pinv = player:get_inventory()
+
+		for idx, stack in pairs(pinv:get_list("main")) do
+			if stack:get_name() == src then
+				local new_stack = ItemStack(tgt)
+				new_stack:set_count(stack:get_count())
+
+				pinv:set_stack("main", idx, new_stack)
+			end
+		end
+	end
+
 	return true
 end
 
 --- Replaces an item.
---
---  FIXME: inventory icons not updated
 --
 --  @chatcmd replace_item
 --  @param old_item Technical name of item to replace.

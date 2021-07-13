@@ -1,5 +1,9 @@
 
 TODO:
 - update world file when chat commands are used
-- update player inventories when items are replaced
+- update player inventories when items are replaced:
+	- bags
+	- 3d_armor
+- update storage inventories when items are replaced
+- update player inventories on login
 - fix top nodes disappearing with /replace_node command
