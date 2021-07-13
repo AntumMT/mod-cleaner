@@ -1,20 +1,40 @@
 
-local misc = dofile(cleaner.modpath .. "/misc_functions.lua")
+local aux = dofile(cleaner.modpath .. "/misc_functions.lua")
 
 -- populate nodes list from file in world path
-local n_list = {remove={}, replace={}}
+local nodes_data = aux.get_world_data().nodes
+
+
+-- START: backward compat
+
 local n_path = core.get_worldpath() .. "/clean_nodes.json"
 local n_file = io.open(n_path, "r")
 
 if n_file then
+	cleaner.log("action", "found deprecated clean_nodes.json, updating")
+
 	local data_in = core.parse_json(n_file:read("*a"))
 	n_file:close()
 	if data_in then
-		n_list = data_in
+		if data_in.remove then
+			for _, r in ipairs(data_in.remove) do
+				table.insert(nodes_data.remove, r)
+			end
+		end
+
+		if data_in.replace then
+			for k, v in pairs(data_in.replace) do
+				if not nodes_data.replace[k] then
+					nodes_data.replace[k] = v
+				end
+			end
+		end
 	end
+
+	-- don't read deprecated file again
+	os.rename(n_path, n_path .. ".old")
 end
 
--- backward compat
 local n_path_old = core.get_worldpath() .. "/clean_nodes.txt"
 n_file = io.open(n_path_old, "r")
 
@@ -25,33 +45,21 @@ if n_file then
 	for _, e in ipairs(data_in) do
 		e = e:trim()
 		if e ~= "" and e:sub(1, 1) ~= "#" then
-			table.insert(n_list.remove, e)
+			table.insert(nodes_data.remove, e)
 		end
 	end
 
 	n_file:close()
-	os.rename(n_path_old, n_path_old .. ".bak") -- don't read deprecated file again
+	os.rename(n_path_old, n_path_old .. ".old") -- don't read deprecated file again
 end
 
-n_list.remove = misc.clean_duplicates(n_list.remove)
+-- END: backward compat
+
+
+nodes_data.remove = aux.clean_duplicates(nodes_data.remove)
 
 -- update json file with any changes
-n_file = io.open(n_path, "w")
-if n_file then
-	local data_out = core.write_json(n_list, true)
-
-	-- FIXME: how to do this with a single regex?
-	data_out = data_out:gsub("\"remove\" : null", "\"remove\" : []")
-	data_out = data_out:gsub("\"replace\" : null", "\"replace\" : {}")
-
-	n_file:write(data_out)
-	n_file:close()
-end
-
-for _, n in ipairs(n_list.remove) do
-	cleaner.log("debug", "Cleaning node: " .. n)
-	cleaner.register_node_removal(n)
-end
+aux.update_world_data("nodes", nodes_data)
 
 core.register_lbm({
 	name = "cleaner:remove_nodes",
@@ -61,11 +69,6 @@ core.register_lbm({
 		core.remove_node(pos)
 	end,
 })
-
-for n_old, n_new in pairs(n_list.replace) do
-	cleaner.log("debug", "Replacing node \"" .. n_old .. "\" with \"" .. n_new .. "\"")
-	cleaner.register_node_replacement(n_old, n_new)
-end
 
 core.register_lbm({
 	name = "cleaner:replace_nodes",
@@ -83,3 +86,15 @@ core.register_lbm({
 		end
 	end,
 })
+
+core.register_on_mods_loaded(function()
+	for _, n in ipairs(nodes_data.remove) do
+		cleaner.log("action", "registering node for removal: " .. n)
+		cleaner.register_node_removal(n)
+	end
+
+	for n_old, n_new in pairs(nodes_data.replace) do
+		cleaner.log("action", "registering node \"" .. n_old .. "\" to be replaced with \"" .. n_new .. "\"")
+		cleaner.register_node_replacement(n_old, n_new)
+	end
+end)

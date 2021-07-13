@@ -10,6 +10,7 @@ v1.2
 	- find_unknown_nodes
 - added setting for enabling "unsafe" methods & commands
 - added support for unregistering ores
+- all types are loaded from <world_path>/cleaner.json file
 
 v1.1
 ----
