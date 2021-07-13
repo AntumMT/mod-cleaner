@@ -41,26 +41,9 @@ core.register_on_mods_loaded(function()
 	for i_old, i_new in pairs(cleaner.get_replace_items()) do
 		cleaner.log("action", "registering item \"" .. i_old .. "\" to be replaced with \"" .. i_new .. "\"")
 
-		if not core.registered_items[i_old] then
-			cleaner.log("info", "\"" .. i_old .. "\" not registered, not unregistering")
-		else
-			cleaner.log("warning", "overriding registered item \"" .. i_old .. "\"")
-
-			core.unregister_item(i_old)
-			if core.registered_items[i_old] then
-				cleaner.log("error", "could not unregister \"" .. i_old .. "\"")
-			end
-		end
-
-		if not core.registered_items[i_new] then
-			cleaner.log("warning", "adding alias for unregistered item \"" .. i_new .. "\"")
-		end
-
-		core.register_alias(i_old, i_new)
-		if core.registered_aliases[i_old] == i_new then
-			cleaner.log("info", "registered alias \"" .. i_old .. "\" for \"" .. i_new .. "\"")
-		else
-			cleaner.log("error", "could not register alias \"" .. i_old .. "\" for \"" .. i_new .. "\"")
+		local retval, msg = cleaner.replace_item(i_old, i_new)
+		if not retval then
+			cleaner.log("warning", msg)
 		end
 	end
 end)

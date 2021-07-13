@@ -4,5 +4,4 @@ TODO:
 - update inventories when items are replaced:
 	- creative
 	- storage (chests, etc.)
-- update player inventories on login
 - fix top nodes disappearing with /replace_node command

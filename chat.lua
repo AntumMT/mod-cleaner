@@ -180,61 +180,6 @@ core.register_chatcommand(cmd_repo.node.cmd_rem, {
 	end,
 })
 
-local function update_list(inv, listname, src, tgt)
-	if not inv then
-		cleaner.log("error", "cannot update list of unknown inventory")
-		return
-	end
-
-	local list = inv:get_list(listname)
-	if not list then
-		cleaner.log("warning", "unknown inventory list: " .. listname)
-		return
-	end
-
-	for idx, stack in pairs(list) do
-		if stack:get_name() == src then
-			local new_stack = ItemStack(tgt)
-			new_stack:set_count(stack:get_count())
-			inv:set_stack(listname, idx, new_stack)
-		end
-	end
-end
-
-local function replace_item(src, tgt)
-	if not core.registered_items[tgt] then
-		return false, S('Cannot use unknown item "@1" as replacement.', tgt)
-	end
-
-	if core.registered_items[src] then
-		core.unregister_item(src)
-	end
-
-	core.register_alias(src, tgt)
-
-	local bags = core.get_modpath("bags") ~= nil
-	local armor = core.get_modpath("3d_armor") ~= nil
-
-	-- update player inventories
-	for _, player in ipairs(core.get_connected_players()) do
-		local pinv = player:get_inventory()
-		update_list(pinv, "main", src, tgt)
-
-		if bags then
-			for i = 1, 4 do
-				update_list(pinv, "bag" .. i .. "contents", src, tgt)
-			end
-		end
-
-		if armor then
-			local armor_inv = core.get_inventory({type="detached", name=player:get_player_name() .. "_armor"})
-			update_list(armor_inv, "armor", src, tgt)
-		end
-	end
-
-	return true
-end
-
 --- Replaces an item.
 --
 --  @chatcmd replace_item
@@ -255,7 +200,7 @@ core.register_chatcommand(cmd_repo.item.cmd, {
 		local tgt = src[2]
 		src = src[1]
 
-		local retval, msg = replace_item(src, tgt)
+		local retval, msg = cleaner.replace_item(src, tgt, true)
 		if not retval then
 			return false, msg
 		end

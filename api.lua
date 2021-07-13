@@ -43,6 +43,82 @@ function cleaner.register_node_removal(src)
 	})
 end
 
+local function update_list(inv, listname, src, tgt)
+	if not inv then
+		cleaner.log("error", "cannot update list of unknown inventory")
+		return
+	end
+
+	local list = inv:get_list(listname)
+	if not list then
+		cleaner.log("warning", "unknown inventory list: " .. listname)
+		return
+	end
+
+	for idx, stack in pairs(list) do
+		if stack:get_name() == src then
+			local new_stack = ItemStack(tgt)
+			new_stack:set_count(stack:get_count())
+			inv:set_stack(listname, idx, new_stack)
+		end
+	end
+end
+
+--- Replaces an item with another registered item.
+--
+--  @tparam string src Technical name of item to be replaced.
+--  @tparam string tgt Technical name of item to be used in place.
+--  @tparam[opt] bool update_players `true` updates inventory lists associated with players (default: `false`).
+function cleaner.replace_item(src, tgt, update_players)
+	update_players = not (update_players ~= true)
+
+	if not core.registered_items[tgt] then
+		return false, S('Cannot use unknown item "@1" as replacement.', tgt)
+	end
+
+	if not core.registered_items[src] then
+		cleaner.log("info", "\"" .. src .. "\" not registered, not unregistering")
+	else
+		cleaner.log("warning", "overriding registered item \"" .. src .. "\"")
+
+		core.unregister_item(src)
+		if core.registered_items[src] then
+			cleaner.log("error", "could not unregister \"" .. src .. "\"")
+		end
+	end
+
+	core.register_alias(src, tgt)
+	if core.registered_aliases[src] == tgt then
+		cleaner.log("info", "registered alias \"" .. src .. "\" for \"" .. tgt .. "\"")
+	else
+		cleaner.log("error", "could not register alias \"" .. src .. "\" for \"" .. tgt .. "\"")
+	end
+
+	local bags = core.get_modpath("bags") ~= nil
+	local armor = core.get_modpath("3d_armor") ~= nil
+
+	-- update player inventories
+	if update_players then
+		for _, player in ipairs(core.get_connected_players()) do
+			local pinv = player:get_inventory()
+			update_list(pinv, "main", src, tgt)
+
+			if bags then
+				for i = 1, 4 do
+					update_list(pinv, "bag" .. i .. "contents", src, tgt)
+				end
+			end
+
+			if armor then
+				local armor_inv = core.get_inventory({type="detached", name=player:get_player_name() .. "_armor"})
+				update_list(armor_inv, "armor", src, tgt)
+			end
+		end
+	end
+
+	return true
+end
+
 --- Registeres an item to be replaced.
 --
 --  @tparam string src Technical name of item to be replaced.
