@@ -137,6 +137,7 @@ function cleaner.register_node_replacement(src, tgt)
 	})
 
 	replace_nodes[src] = tgt
+	cleaner.register_item_replacement(src, tgt)
 end
 
 
