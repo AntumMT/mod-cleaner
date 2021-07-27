@@ -4,3 +4,6 @@ TODO:
 - update inventories when items are replaced:
 	- creative
 	- storage (chests, etc.)
+- make chat commands plural (e.g. /replace_nodes)
+- add admin tool for replacing/removing nodes
+- add LBM when removing an item if it is a node
