@@ -1,4 +1,6 @@
-# Translated by
+# textdomain:cleaner
+
+# Translators:
 
 
 # chat commands
