@@ -75,12 +75,9 @@ core.register_lbm({
 	nodenames = {"group:to_replace"},
 	run_at_every_load = true,
 	action = function(pos, node)
-		core.remove_node(pos)
-
 		local new_node_name = cleaner.get_replace_nodes()[node.name]
-		local new_node = core.registered_nodes[new_node_name]
-		if new_node then
-			core.place_node(pos, new_node)
+		if core.registered_nodes[new_node_name] then
+			core.swap_node(pos, {name=new_node_name})
 		else
 			cleaner.log("error", "cannot replace with unregistered node \"" .. tostring(new_node_name) .. "\"")
 		end

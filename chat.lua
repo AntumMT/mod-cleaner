@@ -241,8 +241,7 @@ core.register_chatcommand(cmd_repo.node.cmd_rep, {
 			return false, cmd_repo.param.mal_radius .. "\n\n" .. help
 		end
 
-		local new_node = core.registered_nodes[tgt]
-		if not new_node then
+		if not core.registered_nodes[tgt] then
 			return false, S('Cannot use unknown node "@1" as replacement.', tgt)
 		end
 
@@ -251,9 +250,11 @@ core.register_chatcommand(cmd_repo.node.cmd_rep, {
 		for _, npos in ipairs(pos_list(ppos, radius)) do
 			local node = core.get_node_or_nil(npos)
 			if node and node.name == src then
-				core.remove_node(npos)
-				core.place_node(npos, new_node)
-				total_replaced = total_replaced + 1
+				if core.swap_node(npos, {name=tgt}) then
+					total_replaced = total_replaced + 1
+				else
+					cleaner.log("error", "could not replace node at " .. core.pos_to_string(npos, 0))
+				end
 			end
 		end
 
