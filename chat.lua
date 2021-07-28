@@ -181,7 +181,7 @@ end
 
 --- Removes nearby entities.
 --
---  @chatcmd remove_entity
+--  @chatcmd remove_entities
 --  @param entity Entity technical name.
 --  @tparam[opt] int radius
 core.register_chatcommand(cmd_repo.entity.cmd, {
@@ -236,7 +236,7 @@ core.register_chatcommand(cmd_repo.entity.cmd, {
 
 --- Removes nearby nodes.
 --
---  @chatcmd remove_node
+--  @chatcmd remove_nodes
 --  @param node Node technical name.
 --  @tparam[opt] int radius
 core.register_chatcommand(cmd_repo.rem_node.cmd, {
@@ -283,7 +283,7 @@ core.register_chatcommand(cmd_repo.rem_node.cmd, {
 
 --- Replaces an item.
 --
---  @chatcmd replace_item
+--  @chatcmd replace_items
 --  @param old_item Technical name of item to replace.
 --  @param new_item Technical name of item to be used in place.
 core.register_chatcommand(cmd_repo.item.cmd, {
@@ -311,7 +311,7 @@ core.register_chatcommand(cmd_repo.item.cmd, {
 
 --- Replaces nearby nodes.
 --
---  @chatcmd replace_node
+--  @chatcmd replace_nodes
 --  @param old_node Technical name of node to replace.
 --  @param new_node Technical name of node to be used in place.
 --  @tparam[opt] int radius
@@ -423,7 +423,7 @@ core.register_chatcommand(cmd_repo.find_node.cmd, {
 if cleaner.unsafe then
 	--- Registers an ore to be removed.
 	--
-	--  @chatcmd remove_ore
+	--  @chatcmd remove_ores
 	--  @param ore Ore technical name.
 	core.register_chatcommand(cmd_repo.ore.cmd, {
 		privs = {server=true},
