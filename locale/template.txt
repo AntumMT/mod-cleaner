@@ -14,6 +14,7 @@ new_node=
 ore=
 Usage:=
 Params:=
+default: @1=
 Search radius.=
 Entity technical name.=
 Node technical name.=
