@@ -7,6 +7,8 @@
 local S = core.get_translator(cleaner.modname)
 
 
+local aux = dofile(cleaner.modpath .. "/misc_functions.lua")
+
 local function pos_list(ppos, radius)
 	local plist = {}
 
@@ -457,3 +459,55 @@ if cleaner.unsafe then
 		end
 	})
 end
+
+
+--- Manages settings for wielded cleaner tool.
+--
+--  @chatcmd cleaner
+--  @param action Action to execute. Can be "status", "setmode", or "setnode".
+--  @param value Mode or node to be set for tool.
+core.register_chatcommand("cleaner", {
+	privs = {server=true},
+	description = S("Manage settings for wielded cleaner tool.") .. "\n\n"
+		.. S("Params:") .. "\n  action: Action to execute. Can be one of \"status\", \"setmode\", or \"setnode\"."
+		.. "\n  value: Mode or node to be set for tool.",
+	params = "<action> <value>",
+	func = function(name, param)
+		local action, value = param
+		local idx = param:find(" ")
+		if idx then
+			param = string.split(param, " ")
+			action = param[1]
+			value = param[2]
+		end
+
+		local player = core.get_player_by_name(name)
+		local stack = player:get_wielded_item()
+		local iname = stack:get_name()
+		local imeta = stack:get_meta()
+
+		if iname ~= "cleaner:pencil" then
+			return false, S("Unrecognized wielded item: @1", iname)
+		end
+
+		if action == "status" then
+			core.chat_send_player(name, iname .. ": "
+				.. S("mode=@1, node=@2", imeta:get_string("mode"), imeta:get_string("node")))
+			return true
+		end
+
+		if not action or not value then
+			return false, S("Missing parameter.")
+		end
+
+		if action == "setmode" then
+			stack = aux.tool:set_mode(stack, value, name)
+		elseif action == "setnode" then
+			stack = aux.tool:set_node(stack, value, name)
+		else
+			return false, S("Unrecognized action: @1", action)
+		end
+
+		return player:set_wielded_item(stack)
+	end,
+})

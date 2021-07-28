@@ -6,7 +6,11 @@ A [Minetest][] mod that can be used to remove/replace unknown entities, nodes, &
 
 ### Licensing:
 
-[MIT](LICENSE.txt)
+- Code: [MIT](LICENSE.txt)
+- Textures: CC0
+- Sounds:
+	- cleaner_pencil_write: [CC0](https://freesound.org/people/NachtmahrTV/sounds/571800/)
+	- cleaner_pencil_erase: [CC0](https://freesound.org/people/damsur/sounds/443241/)
 
 ### Requirements:
 

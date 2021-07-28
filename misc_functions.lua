@@ -1,4 +1,7 @@
 
+local S = core.get_translator(cleaner.modname)
+
+
 --- Cleans duplicate entries from indexed table.
 --
 --  @local
@@ -66,9 +69,63 @@ local function update_world_data(t, data)
 	return false
 end
 
+local tool = {
+	modes = {
+		erase = true,
+		write = true,
+		swap = true,
+	},
+}
+
+tool.set_mode = function(self, stack, mode, pname)
+	local iname = stack:get_name()
+
+	if not self.modes[mode] then
+		if pname then
+			core.chat_send_player(pname, iname .. ": " .. S("unknown mode: @1", mode))
+		end
+		cleaner.log("warning", iname .. ": unknown mode: " .. mode)
+		return stack
+	end
+
+	--[[ FIXME: want to flip item image when mode is set to "erase"
+	local new_item = table.copy(core.registered_nodes[iname])
+	if mode == "erase" then
+		new_item.inventory_image = "cleaner_pencil.png^[transformFXFY"
+	else
+		new_item.inventory_image = "cleaner_pencil.png"
+	end
+
+	local new_stack = ItemStack(new_item)
+	]]
+
+	local imeta = stack:get_meta()
+	imeta:set_string("mode", mode)
+
+	if pname then
+		core.chat_send_player(pname, iname .. ": "
+			.. S("mode set to: @1", imeta:get_string("mode")))
+	end
+
+	return stack
+end
+
+tool.set_node = function(self, stack, node, pname)
+	local imeta = stack:get_meta()
+	imeta:set_string("node", node)
+
+	if pname then
+		core.chat_send_player(pname, stack:get_name() .. ": "
+			.. S("node set to: @1", imeta:get_string("node")))
+	end
+
+	return stack
+end
+
 
 return {
 	clean_duplicates = clean_duplicates,
 	get_world_data = get_world_data,
 	update_world_data = update_world_data,
+	tool = tool,
 }

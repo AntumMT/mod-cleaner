@@ -4,5 +4,9 @@ TODO:
 - update inventories when items are replaced:
 	- creative
 	- storage (chests, etc.)
-- add admin tool for replacing/removing nodes
 - add LBM when removing an item if it is a node
+- make pencil image flip when mode set to "erase"
+- update localization files
+- add "radius" option for pencil or "xlen", "ylen", & "zlen" options
+- add "xrotate" & "zrorate" modes for pencil
+- fix pencil "write" mode when pointing to side of node (node gets placed below)
