@@ -460,6 +460,8 @@ if cleaner.unsafe then
 	})
 end
 
+--- @section end
+
 
 --- Manages settings for wielded cleaner tool.
 --
