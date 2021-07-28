@@ -34,17 +34,17 @@ local param_def = {
 
 local cmd_repo = {
 	entity = {
-		cmd = "remove_entity",
+		cmd = "remove_entities",
 		params = {"entity"},
 		oparams = {radius=100},
 	},
 	rem_node = {
-		cmd = "remove_node",
+		cmd = "remove_nodes",
 		params = {"node"},
 		oparams = {radius=5},
 	},
 	rep_node = {
-		cmd = "replace_node",
+		cmd = "replace_nodes",
 		params = {"old_node", "new_node"},
 		oparams = {radius=5},
 	},
@@ -53,11 +53,11 @@ local cmd_repo = {
 		oparams = {radius=100},
 	},
 	item = {
-		cmd = "replace_item",
+		cmd = "replace_items",
 		params = {"old_item", "new_item"},
 	},
 	ore = {
-		cmd = "remove_ore",
+		cmd = "remove_ores",
 		params = {"ore"},
 	},
 	param = {
