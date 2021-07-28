@@ -1,0 +1,44 @@
+# textdomain:cleaner
+
+# Translators: Jordan Irwin (AntumDeluge)
+
+
+# chat commands
+entity=entidad
+node=nodo
+radius=radio
+old_item=objeto_antiguo
+new_item=objeto_nuevo
+old_node=nodo_antiguo
+new_node=nodo_nuevo
+ore=mineral
+Usage:=Uso:
+Params:=Parámetros:
+default: @1=por defecto: @1
+Search radius.=Radio de búsqueda.
+Entity technical name.=Nombre técnico de entidad.
+Node technical name.=Nombre técnico de nodo.
+Technical name of node to be replaced.=Nombre técnico del nodo reemplazado.
+Technical name of node to be used in place.=Nombre técnico del nodo de reemplazo.
+Technical name of item to be replaced.=Nombre técnico del objeto reemplazado.
+Technical name of item to be used in place.=Nombre técnico del objeto de reemplazo.
+Ore technical name.=Nombre técnico de mineral.
+Remove an entity from game.=Eliminar una entidad del juego.
+Remove a node from game.=Eliminar un nodo del juego.
+Replace an item in game.=Sustituir un objecto del juego.
+Replace a node in game.=Sustituir un nodo del juego.
+Find names of unknown nodes.=Encontrar los nombres de nodos desconocidos.
+Remove an ore from game.=Eliminar un mineral del juego.
+Missing parameter.=Parámetro extraviado.
+Too many parameters.=Demasiados parámetros.
+Radius must be a number.=El radio debe ser un número.
+Cannot use unknown item "@1" as replacement.=El objeto "@1" es desonocido, no se puede utilizar como sustitución.
+Cannot use unknown node "@1" as replacement.=El nodo "@1" es desonocido, no se puede utilizar como sustitución.
+Replaced @1 nodes.=Nodos sustituidos: @1
+Removed @1 nodes.=Se eliminaron @1 nodos.
+Removed @1 entities.=Se eliminaron @1 entidades.
+Found unknown nodes: @1=Se encontraron @1 nodos desconocidos.
+No unknown nodes found.=No se encontraron nodos desconocidos.
+Ore "@1" not found, not unregistering.=No se encontró el mineral "@1", se mantiene registrado.
+Unregistered @1 ores (this will be undone after server restart).=Se anuló @1 minerales del registro.
+Success!=¡Éxito!

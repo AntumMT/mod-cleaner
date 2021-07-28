@@ -13,6 +13,7 @@ v1.2
 - added setting for enabling "unsafe" methods & commands
 - all types are loaded from <world_path>/cleaner.json file
 - added localization support
+- added Spanish localization
 
 v1.1
 ----
