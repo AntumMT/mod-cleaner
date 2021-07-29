@@ -71,10 +71,9 @@ end
 
 local tool = {
 	modes = {
-		erase = true,
-		write = true,
-		swap = true,
+		["cleaner:pencil"] = {"erase", "write", "swap"},
 	},
+
 	format_name = function(self, stack)
 		local iname = stack:get_name()
 		if iname == "cleaner:pencil_1" then
@@ -87,7 +86,7 @@ local tool = {
 	set_mode = function(self, stack, mode, pname)
 		local iname = self:format_name(stack)
 
-		if not self.modes[mode] then
+		if not self.modes[iname] then
 			if pname then
 				core.chat_send_player(pname, iname .. ": " .. S("unknown mode: @1", mode))
 			end
@@ -114,6 +113,31 @@ local tool = {
 		new_meta:from_table(imeta:to_table())
 
 		return new_stack
+	end,
+
+	next_mode = function(self, stack, pname)
+		local iname = self:format_name(stack)
+		local modes = self.modes[iname]
+
+		if not modes then
+			return false, stack, "modes for tool \"" .. stack:get_name() .. "\" not available."
+		end
+
+		local imeta = stack:get_meta()
+		local current_mode = imeta:get_string("mode")
+		if not current_mode or current_mode:trim() == "" then
+			return true, self:set_mode(stack, modes[1], pname)
+		end
+
+		local idx = 1
+		for _, m in ipairs(modes) do
+			if current_mode == m then
+				break
+			end
+			idx = idx + 1
+		end
+
+		return true, self:set_mode(stack, modes[idx+1] or modes[1], pname)
 	end,
 
 	set_node = function(self, stack, node, pname)
@@ -157,7 +181,6 @@ tool.on_use = function(stack, user, pointed_thing)
 			if mode == "swap" then
 				core.swap_node(npos, {name=new_node_name})
 				sound_handle = core.sound_play("cleaner_pencil_write", {object=user})
-				return stack
 			elseif mode == "write" then
 				local node_above = core.get_node_or_nil(pointed_thing.above)
 				if not node_above or node_above.name == "air" then
@@ -166,11 +189,11 @@ tool.on_use = function(stack, user, pointed_thing)
 				else
 					core.chat_send_player(pname, S("Can't place node there."))
 				end
-
-				return stack
 			else
 				core.chat_send_player(pname, S("Unknown mode: @1", mode))
 			end
+
+			return stack
 		end
 
 		core.chat_send_player(pname, S("Cannot place unknown node: @1", new_node_name))
@@ -187,17 +210,12 @@ tool.on_secondary_use = function(stack, user, pointed_thing)
 		return stack
 	end
 
-	local imeta = stack:get_meta()
-	local mode = imeta:get_string("mode")
-	if mode == "erase" or mode == "" then
-		mode = "write"
-	elseif mode == "write" then
-		mode = "swap"
-	else
-		mode = "erase"
+	local success, stack, msg = tool.next_mode(tool, stack, pname)
+	if not success then
+		core.chat_send_player(pname, msg)
 	end
 
-	return tool:set_mode(stack, mode, pname)
+	return stack
 end
 
 tool.on_place = function(stack, placer, pointed_thing)

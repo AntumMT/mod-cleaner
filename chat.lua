@@ -485,7 +485,7 @@ core.register_chatcommand("cleaner", {
 
 		local player = core.get_player_by_name(name)
 		local stack = player:get_wielded_item()
-		local iname = stack:get_name()
+		local iname = aux.tool:format_name(stack)
 		local imeta = stack:get_meta()
 
 		if iname ~= "cleaner:pencil" then
