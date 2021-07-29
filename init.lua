@@ -66,91 +66,17 @@ core.register_tool(cleaner.modname .. ":pencil", {
 	description = S("Master Pencil"),
 	inventory_image = "cleaner_pencil.png",
 	liquids_pointable = true,
-	on_use = function(itemstack, user, pointed_thing)
-		if not user:is_player() then return end
+	on_use = aux.tool.on_use,
+	on_secondary_use = aux.tool.on_secondary_use,
+	on_place = aux.tool.on_place,
+})
 
-		local pname = user:get_player_name()
-		if not core.get_player_privs(pname).server then
-			core.chat_send_player(pname, S("You do not have permission to use this item. Missing privs: server"))
-			return itemstack
-		end
-
-		if sound_handle then
-			core.sound_stop(sound_handle)
-			sound_handle = nil
-		end
-
-		if pointed_thing.type == "node" then
-			local npos = core.get_pointed_thing_position(pointed_thing)
-			local imeta = itemstack:get_meta()
-			local mode = imeta:get_string("mode")
-			local new_node_name = imeta:get_string("node")
-
-			if mode == "erase" then
-				core.remove_node(npos)
-				sound_handle = core.sound_play("cleaner_pencil_erase", {object=user})
-				return itemstack
-			elseif core.registered_nodes[new_node_name] then
-				if mode == "swap" then
-					core.swap_node(npos, {name=new_node_name})
-					sound_handle = core.sound_play("cleaner_pencil_write", {object=user})
-					return itemstack
-				elseif mode == "write" then
-					local node_above = core.get_node_or_nil(pointed_thing.above)
-					if not node_above or node_above.name == "air" then
-						core.place_node(pointed_thing.above, {name=new_node_name})
-						sound_handle = core.sound_play("cleaner_pencil_write", {object=user})
-					else
-						core.chat_send_player(pname, S("Can't place node there."))
-					end
-
-					return itemstack
-				else
-					core.chat_send_player(pname, S("Unknown mode: @1", mode))
-				end
-			end
-
-			core.chat_send_player(pname, S("Cannot place unknown node: @1", new_node_name))
-			return itemstack
-		end
-	end,
-	on_secondary_use = function(itemstack, user, pointed_thing)
-		if not user:is_player() then return end
-
-		local pname = user:get_player_name()
-		if not core.get_player_privs(pname).server then
-			core.chat_send_player(pname, S("You do not have permission to use this item. Missing privs: @1", "server"))
-			return itemstack
-		end
-
-		local imeta = itemstack:get_meta()
-		local mode = imeta:get_string("mode")
-		if mode == "erase" or mode == "" then
-			mode = "write"
-		elseif mode == "write" then
-			mode = "swap"
-		else
-			mode = "erase"
-		end
-
-		return aux.tool:set_mode(itemstack, mode, pname)
-	end,
-	on_place = function(itemstack, placer, pointed_thing)
-		if not placer:is_player() then return end
-
-		local pname = placer:get_player_name()
-		if not core.get_player_privs(pname).server then
-			core.chat_send_player(pname, S("You do not have permission to use this item. Missing privs: @1", "server"))
-			return itemstack
-		end
-
-		if pointed_thing.type == "node" then
-			local node = core.get_node_or_nil(core.get_pointed_thing_position(pointed_thing))
-			if node then
-				itemstack = aux.tool:set_node(itemstack, node.name, pname)
-			end
-		end
-
-		return itemstack
-	end,
+core.register_tool(cleaner.modname .. ":pencil_1", {
+	description = S("Master Pencil"),
+	inventory_image = "cleaner_pencil.png^[transformFXFY",
+	liquids_pointable = true,
+	groups = {not_in_creative_inventory=1},
+	on_use = aux.tool.on_use,
+	on_secondary_use = aux.tool.on_secondary_use,
+	on_place = aux.tool.on_place,
 })

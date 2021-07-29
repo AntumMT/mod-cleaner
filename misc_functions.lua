@@ -75,48 +75,145 @@ local tool = {
 		write = true,
 		swap = true,
 	},
+	format_name = function(self, stack)
+		local iname = stack:get_name()
+		if iname == "cleaner:pencil_1" then
+			iname = "cleaner:pencil"
+		end
+
+		return iname
+	end,
+
+	set_mode = function(self, stack, mode, pname)
+		local iname = self:format_name(stack)
+
+		if not self.modes[mode] then
+			if pname then
+				core.chat_send_player(pname, iname .. ": " .. S("unknown mode: @1", mode))
+			end
+			cleaner.log("warning", iname .. ": unknown mode: " .. mode)
+			return stack
+		end
+
+		local imeta = stack:get_meta()
+		imeta:set_string("mode", mode)
+
+		if pname then
+			core.chat_send_player(pname, iname .. ": "
+				.. S("mode set to: @1", imeta:get_string("mode")))
+		end
+
+		local new_stack
+		if mode == "erase" then
+			new_stack = ItemStack("cleaner:pencil_1")
+		else
+			new_stack = ItemStack("cleaner:pencil")
+		end
+
+		local new_meta = new_stack:get_meta()
+		new_meta:from_table(imeta:to_table())
+
+		return new_stack
+	end,
+
+	set_node = function(self, stack, node, pname)
+		local imeta = stack:get_meta()
+		imeta:set_string("node", node)
+
+		if pname then
+			core.chat_send_player(pname, stack:get_name() .. ": "
+				.. S("node set to: @1", imeta:get_string("node")))
+		end
+
+		return stack
+	end,
 }
 
-tool.set_mode = function(self, stack, mode, pname)
-	local iname = stack:get_name()
+tool.on_use = function(stack, user, pointed_thing)
+	if not user:is_player() then return end
 
-	if not self.modes[mode] then
-		if pname then
-			core.chat_send_player(pname, iname .. ": " .. S("unknown mode: @1", mode))
-		end
-		cleaner.log("warning", iname .. ": unknown mode: " .. mode)
+	local pname = user:get_player_name()
+	if not core.get_player_privs(pname).server then
+		core.chat_send_player(pname, S("You do not have permission to use this item. Missing privs: server"))
 		return stack
 	end
 
-	--[[ FIXME: want to flip item image when mode is set to "erase"
-	local new_item = table.copy(core.registered_nodes[iname])
-	if mode == "erase" then
-		new_item.inventory_image = "cleaner_pencil.png^[transformFXFY"
-	else
-		new_item.inventory_image = "cleaner_pencil.png"
+	if sound_handle then
+		core.sound_stop(sound_handle)
+		sound_handle = nil
 	end
 
-	local new_stack = ItemStack(new_item)
-	]]
+	if pointed_thing.type == "node" then
+		local npos = core.get_pointed_thing_position(pointed_thing)
+		local imeta = stack:get_meta()
+		local mode = imeta:get_string("mode")
+		local new_node_name = imeta:get_string("node")
 
-	local imeta = stack:get_meta()
-	imeta:set_string("mode", mode)
+		if mode == "erase" then
+			core.remove_node(npos)
+			sound_handle = core.sound_play("cleaner_pencil_erase", {object=user})
+			return stack
+		elseif core.registered_nodes[new_node_name] then
+			if mode == "swap" then
+				core.swap_node(npos, {name=new_node_name})
+				sound_handle = core.sound_play("cleaner_pencil_write", {object=user})
+				return stack
+			elseif mode == "write" then
+				local node_above = core.get_node_or_nil(pointed_thing.above)
+				if not node_above or node_above.name == "air" then
+					core.place_node(pointed_thing.above, {name=new_node_name})
+					sound_handle = core.sound_play("cleaner_pencil_write", {object=user})
+				else
+					core.chat_send_player(pname, S("Can't place node there."))
+				end
 
-	if pname then
-		core.chat_send_player(pname, iname .. ": "
-			.. S("mode set to: @1", imeta:get_string("mode")))
+				return stack
+			else
+				core.chat_send_player(pname, S("Unknown mode: @1", mode))
+			end
+		end
+
+		core.chat_send_player(pname, S("Cannot place unknown node: @1", new_node_name))
+		return stack
 	end
-
-	return stack
 end
 
-tool.set_node = function(self, stack, node, pname)
-	local imeta = stack:get_meta()
-	imeta:set_string("node", node)
+tool.on_secondary_use = function(stack, user, pointed_thing)
+	if not user:is_player() then return end
 
-	if pname then
-		core.chat_send_player(pname, stack:get_name() .. ": "
-			.. S("node set to: @1", imeta:get_string("node")))
+	local pname = user:get_player_name()
+	if not core.get_player_privs(pname).server then
+		core.chat_send_player(pname, S("You do not have permission to use this item. Missing privs: @1", "server"))
+		return stack
+	end
+
+	local imeta = stack:get_meta()
+	local mode = imeta:get_string("mode")
+	if mode == "erase" or mode == "" then
+		mode = "write"
+	elseif mode == "write" then
+		mode = "swap"
+	else
+		mode = "erase"
+	end
+
+	return tool:set_mode(stack, mode, pname)
+end
+
+tool.on_place = function(stack, placer, pointed_thing)
+	if not placer:is_player() then return end
+
+	local pname = placer:get_player_name()
+	if not core.get_player_privs(pname).server then
+		core.chat_send_player(pname, S("You do not have permission to use this item. Missing privs: @1", "server"))
+		return stack
+	end
+
+	if pointed_thing.type == "node" then
+		local node = core.get_node_or_nil(core.get_pointed_thing_position(pointed_thing))
+		if node then
+			stack = tool:set_node(stack, node.name, pname)
+		end
 	end
 
 	return stack
