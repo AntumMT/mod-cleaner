@@ -2,6 +2,7 @@ project = "Cleaner"
 title = "Cleaner mod for Minetest"
 format = "markdown"
 boilerplate = false
+style = true
 
 file = {
 	"init.lua",
