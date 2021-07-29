@@ -5,10 +5,10 @@ boilerplate = false
 style = true
 
 file = {
-	"init.lua",
 	"settings.lua",
 	"api.lua",
 	"chat.lua",
+	"tools.lua",
 }
 
 new_type("chatcmd", "Chat Commands")
