@@ -62,6 +62,16 @@ local sound_handle
 --  @tool cleaner:pencil
 --  @img cleaner_pencil.png
 --  @privs server
+--  @usage
+--  place (right-click):
+--  - when not pointing at a node, changes modes
+--  - when pointing at a node, sets node to be used
+--
+--  use (left-click):
+--  - executes action for current mode:
+--    - erase: erases pointed node
+--    - write: adds node
+--    - swap:  replaces pointed node
 core.register_tool(cleaner.modname .. ":pencil", {
 	description = S("Master Pencil"),
 	inventory_image = "cleaner_pencil.png",
