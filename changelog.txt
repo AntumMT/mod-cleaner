@@ -8,7 +8,7 @@ v1.2
 	- replace_items
 	- replace_nodes
 	- find_unknown_nodes
-	- replace_ores (unsafe)
+	- remove_ores (unsafe)
 - added support for unregistering ores (unsafe)
 - added setting for enabling "unsafe" methods & commands
 - all types are loaded from <world_path>/cleaner.json file
