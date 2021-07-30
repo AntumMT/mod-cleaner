@@ -42,3 +42,12 @@ No unknown nodes found.=
 Ore "@1" not found, not unregistering.=
 Unregistered @1 ores (this will be undone after server restart).=
 Success!=
+
+# tools:
+@1: mode set to: @2=
+Modes for tool "@1" not available.=
+@1: node set to: @2=
+You do not have permission to use this item. Missing privs: @1=
+Can't place node there.=
+Unknown mode: @1=
+Cannot place unknown node: @1=
