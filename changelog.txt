@@ -2,6 +2,12 @@
 v1.2
 ----
 - added API
+- added support for unregistering ores (unsafe)
+- added setting for enabling "unsafe" methods & commands
+- all types are loaded from <world_path>/cleaner.json file
+- added localization support
+- added Spanish localization
+- added pencil tool for erasing, adding, & swapping nodes
 - added chat commands:
 	- remove_entities
 	- remove_nodes
@@ -9,13 +15,7 @@ v1.2
 	- replace_nodes
 	- find_unknown_nodes
 	- remove_ores (unsafe)
-- added support for unregistering ores (unsafe)
-- added setting for enabling "unsafe" methods & commands
-- all types are loaded from <world_path>/cleaner.json file
-- added localization support
-- added Spanish localization
-- added pencil tool for erasing, adding, & swapping nodes
-- added "cleaner" chat command for managing pencil tool settings
+	- ctool (manages pencil tool settings)
 
 v1.1
 ----

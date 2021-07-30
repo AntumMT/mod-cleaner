@@ -465,10 +465,10 @@ end
 
 --- Manages settings for wielded cleaner tool.
 --
---  @chatcmd cleaner
+--  @chatcmd ctool
 --  @param action Action to execute. Can be "status", "setmode", or "setnode".
 --  @param value Mode or node to be set for tool.
-core.register_chatcommand("cleaner", {
+core.register_chatcommand("ctool", {
 	privs = {server=true},
 	description = S("Manage settings for wielded cleaner tool.") .. "\n\n"
 		.. S("Params:") .. "\n  action: Action to execute. Can be one of \"status\", \"setmode\", or \"setnode\"."
