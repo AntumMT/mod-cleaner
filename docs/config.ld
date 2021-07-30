@@ -20,6 +20,7 @@ file = {
 	"api.lua",
 	"chat.lua",
 	"tools.lua",
+	"docs/config.luadoc",
 }
 
 new_type("chatcmd", "Chat Commands")
