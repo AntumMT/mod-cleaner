@@ -4,9 +4,10 @@
 --  @topic settings
 
 
---- Enables unsafe methods.
+--- Enables unsafe methods & chat commands.
 --
---  `cleaner.remove_ore`
+--  - `cleaner.remove_ore`
+--  - `/remove_ores`
 --
 --  @setting cleaner.unsafe
 --  @settype bool
