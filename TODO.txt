@@ -9,3 +9,5 @@ TODO:
 - add "xrotate" & "zrorate" modes for pencil
 - fix pencil "write" mode when pointing to side of node (node gets placed below)
 - add config file usage to HTML docs
+- move HTML docs to gh-pages branch
+- change "cleaner" chat command to something like "cleanertool" or "ctool"
