@@ -28,10 +28,34 @@ new_type("setting", "Settings")
 new_type("tool", "Tools")
 new_type("json", "JSON Configurations")
 
+
+local function video_frame(src)
+	return '<iframe width="560" height="315" src="' .. src
+		.. '" title="Video Player" frameborder="0"'
+		.. ' allow="fullscreen;"></iframe>'
+end
+
 custom_tags = {
 	{
 		"privs",
 		title = "Required Privileges",
+	},
+	{
+		"video",
+		title = "Video",
+		format = video_frame,
+	},
+	{
+		"youtube",
+		title = "Video",
+		format = function(value)
+			return video_frame("https://www.youtube.com/embed/" .. value)
+			--[[
+			return '<iframe width="560" height="315" src="https://www.youtube.com/embed/'
+				.. value .. '" title="Video Player" frameborder="0"'
+				.. ' allow="fullscreen;"></iframe>'
+			]]
+		end,
 	},
 	-- settings
 	{
