@@ -9,8 +9,6 @@ local S = core.get_translator(cleaner.modname)
 
 local aux = dofile(cleaner.modpath .. "/misc_functions.lua")
 
-local sound_handle
-
 --- Master Pencil
 --
 --  @tool cleaner:pencil

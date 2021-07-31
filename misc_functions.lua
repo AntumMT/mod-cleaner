@@ -151,6 +151,8 @@ local tool = {
 	end,
 }
 
+local sound_handle
+
 tool.on_use = function(stack, user, pointed_thing)
 	if not user:is_player() then return end
 
