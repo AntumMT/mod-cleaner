@@ -1,0 +1,11 @@
+{
+	"type": "MOD",
+	"title": "Cleaner",
+	"short_description": "Remove/Replace unknown entities, nodes, & items.",
+	"license": "MIT",
+	"media_license": "CC0",
+	"tags": ["world_tools"],
+	"repo": "https://github.com/AntumMT/mod-cleaner",
+	"issue_tracker": "https://github.com/AntumMT/mod-cleaner/issues",
+	"forums": "18381",
+}

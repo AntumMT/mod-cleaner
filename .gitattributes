@@ -1,4 +1,2 @@
-.gitattributes export-ignore
-.github/ export-ignore
-.ldoc/ export-ignore
+.* export-ignore
 sounds_src/ export-ignore
