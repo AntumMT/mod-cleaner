@@ -464,7 +464,7 @@ core.register_chatcommand(cmd_repo.find_node.cmd, {
 
 --- Finds names of nearby nodes.
 --
---  @chatcmd find_neaby_nodes
+--  @chatcmd find_nearby_nodes
 --  @tparam[opt] int radius Search radius.
 core.register_chatcommand(cmd_repo.near_node.cmd, {
 	privs = {server=true},
