@@ -57,6 +57,10 @@ local cmd_repo = {
 		cmd = "find_unknown_nodes",
 		oparams = {radius=100},
 	},
+	near_node = {
+		cmd = "find_nearby_nodes",
+		oparams = {radius=5},
+	},
 	item = {
 		cmd = "replace_items",
 		params = {"old_item", "new_item"},
@@ -452,6 +456,63 @@ core.register_chatcommand(cmd_repo.find_node.cmd, {
 			msg = S("Found unknown nodes: @1", node_count) .. "\n  " .. table.concat(unknown_nodes, ", ")
 		else
 			msg = S("No unknown nodes found.")
+		end
+
+		return true, msg
+	end,
+})
+
+--- Finds names of nearby nodes.
+--
+--  @chatcmd find_neaby_nodes
+--  @tparam[opt] int radius Search radius.
+core.register_chatcommand(cmd_repo.near_node.cmd, {
+	privs = {server=true},
+	description = S("Find names of nearby nodes.") .. "\n\n"
+		.. format_params(cmd_repo.near_node.cmd),
+	params = cmd_repo.near_node.help.param_string,
+	func = function(name, param)
+		local help = format_help(cmd_repo.near_node.cmd)
+
+		if param:find(" ") then
+			return false, cmd_repo.param.excess .. "\n\n" .. help
+		end
+
+		local radius = cmd_repo.near_node.oparams.radius
+		if param and param:trim() ~= "" then
+			radius = tonumber(param)
+		end
+
+		if not radius then
+			return false, cmd_repo.param.mal_radius .. "\n\n" .. help
+		end
+
+		local radius, msg = check_radius(radius, name)
+		if msg then
+			core.chat_send_player(name, msg)
+		end
+
+		local ppos = core.get_player_by_name(name):get_pos()
+
+		local node_names = {}
+		for _, npos in ipairs(pos_list(ppos, radius)) do
+			local node = core.get_node_or_nil(npos)
+			if node and not node_names[node.name] then
+				node_names[node.name] = true
+			end
+		end
+
+		local found_nodes = {}
+		for k, _ in pairs(node_names) do
+			table.insert(found_nodes, k)
+		end
+
+		local msg
+		local node_count = #found_nodes
+		if node_count > 0 then
+			msg = S("Nearby nodes: @1", node_count) .. "\n  " .. table.concat(found_nodes, ", ")
+		else
+			msg = S("No nearby nodes found.")
 		end
 
 		return true, msg
