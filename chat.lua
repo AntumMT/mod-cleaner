@@ -32,6 +32,9 @@ local param_def = {
 	old_item = {name=S("old_item"), desc=S("Technical name of item to be replaced.")},
 	new_item = {name=S("new_item"), desc=S("Technical name of item to be used in place.")},
 	ore = {name=S("ore"), desc=S("Ore technical name.")},
+	action = {name=S("action"),
+		desc=S('Action to execute. Can be one of "@1", "@2", or "@3".', "status", "setmode", "setnode")},
+	value = {name=S("value"), desc=S('Mode or node to be set for tool (not required for "@1" action).', "status")},
 }
 
 local cmd_repo = {
@@ -61,6 +64,10 @@ local cmd_repo = {
 	ore = {
 		cmd = "remove_ores",
 		params = {"ore"},
+	},
+	tool = {
+		cmd = "ctool",
+		params = {"action", "value"},
 	},
 	param = {
 		missing = S("Missing parameter."),
@@ -468,12 +475,11 @@ end
 --  @chatcmd ctool
 --  @param action Action to execute. Can be "status", "setmode", or "setnode".
 --  @param value Mode or node to be set for tool.
-core.register_chatcommand("ctool", {
+core.register_chatcommand(cmd_repo.tool.cmd, {
 	privs = {server=true},
 	description = S("Manage settings for wielded cleaner tool.") .. "\n\n"
-		.. S("Params:") .. "\n  action: Action to execute. Can be one of \"status\", \"setmode\", or \"setnode\"."
-		.. "\n  value: Mode or node to be set for tool.",
-	params = "<action> <value>",
+		.. format_params(cmd_repo.tool.cmd),
+	params = cmd_repo.tool.help.param_string,
 	func = function(name, param)
 		local action, value = param
 		local idx = param:find(" ")
@@ -483,23 +489,25 @@ core.register_chatcommand("ctool", {
 			value = param[2]
 		end
 
+		local help = format_help(cmd_repo.tool.cmd)
+
 		local player = core.get_player_by_name(name)
 		local stack = player:get_wielded_item()
 		local iname = aux.tool:format_name(stack)
 		local imeta = stack:get_meta()
 
 		if iname ~= "cleaner:pencil" then
-			return false, S("Unrecognized wielded item: @1", iname)
+			return false, S("Unrecognized wielded item: @1", iname) .. "\n\n" .. help
 		end
 
 		if action == "status" then
-			core.chat_send_player(name, iname .. ": "
-				.. S("mode=@1, node=@2", imeta:get_string("mode"), imeta:get_string("node")))
+			core.chat_send_player(name, iname .. ": " .. S("mode") .. "=" .. imeta:get_string("mode")
+				.. ", " .. S("node") .. "=" .. imeta:get_string("node"))
 			return true
 		end
 
 		if not action or not value then
-			return false, S("Missing parameter.")
+			return false, S("Missing parameter.") .. "\n\n" .. help
 		end
 
 		if action == "setmode" then
@@ -507,7 +515,7 @@ core.register_chatcommand("ctool", {
 		elseif action == "setnode" then
 			stack = aux.tool:set_node(stack, value, name)
 		else
-			return false, S("Unrecognized action: @1", action)
+			return false, S("Unrecognized action: @1", action) .. "\n\n" .. help
 		end
 
 		return player:set_wielded_item(stack)
