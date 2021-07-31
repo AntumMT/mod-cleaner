@@ -9,8 +9,8 @@ f_config="${d_ldoc}/config.ld"
 cd "${d_ldoc}/.."
 
 d_root="$(pwd)"
-d_ref="${d_root}/docs/reference"
-d_data="${d_ref}/data"
+d_export="${d_export:-${d_root}/docs/reference}"
+d_data="${d_export}/data"
 
 cmd_ldoc="${d_ldoc}/ldoc/ldoc.lua"
 if test ! -x "${cmd_ldoc}"; then
@@ -18,22 +18,29 @@ if test ! -x "${cmd_ldoc}"; then
 fi
 
 # clean old files
-rm -rf "${d_ref}"
+rm -rf "${d_export}"
 
-# create new files
-"${cmd_ldoc}" --UNSAFE_NO_SANDBOX -c "${f_config}" -d "${d_ref}" "${d_root}"
+# generate new doc files
+"${cmd_ldoc}" --UNSAFE_NO_SANDBOX -c "${f_config}" -d "${d_export}" "${d_root}"; retval=$?
 
 # check exit status
-retval=$?
 if test ${retval} -ne 0; then
+	echo -e "\nan error occurred (ldoc return code: ${retval})"
 	exit ${retval}
 fi
 
 # copy textures to data directory
 echo -e "\ncopying textures ..."
 mkdir -p "${d_data}"
+texture_count=0
 for png in $(find "${d_root}/textures" -maxdepth 1 -type f -name "*.png"); do
-	cp -v "${png}" "${d_data}"
+	if test -f "${d_data}/$(basename ${png})"; then
+		echo "WARNING: not overwriting existing file: ${png}"
+	else
+		cp "${png}" "${d_data}"
+		texture_count=$((texture_count + 1))
+		printf "\rcopied ${texture_count} textures"
+	fi
 done
 
-echo -e "\nDone!"
+echo -e "\n\nDone!"
