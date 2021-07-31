@@ -20,7 +20,7 @@ file = {
 	"api.lua",
 	"chat.lua",
 	"tools.lua",
-	"docs/config.luadoc",
+	".ldoc/config.luadoc",
 }
 
 new_type("chatcmd", "Chat Commands")
@@ -49,7 +49,7 @@ custom_tags = {
 		"img",
 		title = "Image",
 		format = function(value)
-			return "<img src=\"../../../textures/" .. value .. "\" style=\"width:32px; height:32px;\" />"
+			return "<img src=\"../data/" .. value .. "\" style=\"width:32px; height:32px;\" />"
 		end,
 	},
 }
@@ -64,8 +64,6 @@ local function format_setting_tag(desc, value)
 end
 
 local function setting_handler(item)
-	print("\nsetting_handler: " .. item.name)
-
 	if not ipairs or not type then
 		return item
 	end
