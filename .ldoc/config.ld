@@ -50,11 +50,6 @@ custom_tags = {
 		title = "Video",
 		format = function(value)
 			return video_frame("https://www.youtube.com/embed/" .. value)
-			--[[
-			return '<iframe width="560" height="315" src="https://www.youtube.com/embed/'
-				.. value .. '" title="Video Player" frameborder="0"'
-				.. ' allow="fullscreen;"></iframe>'
-			]]
 		end,
 	},
 	-- settings
