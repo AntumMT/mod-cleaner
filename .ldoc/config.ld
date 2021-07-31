@@ -1,10 +1,13 @@
 
-local print, error, type, ipairs
+local print, error, type, table, ipairs, string, tostring
 if import then
 	print = import("print")
 	error = import("error")
 	type = import("type")
+	table = import("table")
 	ipairs = import("ipairs")
+	string = import("string")
+	tostring = import("tostring")
 end
 
 
@@ -74,9 +77,34 @@ custom_tags = {
 }
 
 
-local registered = {
-	settings = {},
-}
+-- START: handling items to prevent re-parsing
+
+local registered_items = {}
+
+local function is_registered(item)
+	if not registered_items[item.type] then return false end
+
+	for _, tbl in ipairs(registered_items[item.type]) do
+		if item == tbl then
+			return true
+		end
+	end
+
+	return false
+end
+
+local function register(item)
+	if not registered_items[item.type] then
+		registered_items[item.type] = {}
+	end
+
+	if not is_registered(item) then
+		table.insert(registered_items[item.type], item)
+	end
+end
+
+-- END:
+
 
 local function format_setting_tag(desc, value)
 	return "\n- <span style=\"font-size:80%;\">`" .. desc .. ":`</span> `" .. value .. "`"
@@ -128,17 +156,36 @@ local function setting_handler(item)
 		end
 	end
 
-	registered.settings[item.name] = true
+	return item
+end
+
+local function chatcmd_handler(item)
+	for _, p in ipairs(item.params) do
+		if item.modifiers.param[p].opt then
+			item.name = item.name .. " [" .. p .. "]"
+		else
+			item.name = item.name .. " &lt;" .. p .. "&gt;"
+		end
+	end
+
+	if #item.params > 0 then
+		item.description = item.description .. "\n\n### Parameters:"
+	end
 
 	return item
 end
 
 function custom_display_name_handler(item, default_handler)
-	if item.type == "setting" and not registered.settings[item.name] then
-		item = setting_handler(item)
+	if not is_registered(item) then
+		if item.type == "setting" then
+			item = setting_handler(item)
+		elseif item.type == "chatcmd" then
+			item = chatcmd_handler(item)
+		end
 	end
 
 	if item then
+		register(item)
 		return default_handler(item)
 	end
 end
