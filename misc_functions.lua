@@ -184,7 +184,7 @@ tool.on_use = function(stack, user, pointed_thing)
 			elseif mode == "write" then
 				local node_above = core.get_node_or_nil(pointed_thing.above)
 				if not node_above or node_above.name == "air" then
-					core.place_node(pointed_thing.above, {name=new_node_name})
+					core.set_node(pointed_thing.above, {name=new_node_name})
 					sound_handle = core.sound_play("cleaner_pencil_write", {object=user})
 				else
 					core.chat_send_player(pname, S("Can't place node there."))
