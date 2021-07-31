@@ -77,7 +77,7 @@ cleaner.unsafe
 - [![ContentDB](https://content.minetest.net/packages/AntumDeluge/cleaner/shields/title/)][ContentDB]
 - [Forum](https://forum.minetest.net/viewtopic.php?t=18381)
 - [Git repo](https://github.com/AntumMT/mod-cleaner)
-- [API](https://antummt.github.io/mod-cleaner/docs/reference)
+- [Reference](https://antummt.github.io/mod-cleaner/reference)
 - [Changelog](changelog.txt)
 - [TODO](TODO.txt)
 
