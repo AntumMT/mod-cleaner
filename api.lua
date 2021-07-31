@@ -143,7 +143,7 @@ end
 
 --- Unsafe methods.
 --
---  Enabled with `cleaner.unsafe` setting.
+--  Enabled with [cleaner.unsafe](settings.html#cleaner.unsafe) setting.
 --
 --  @section unsafe
 

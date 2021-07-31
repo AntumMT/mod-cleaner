@@ -424,7 +424,7 @@ core.register_chatcommand(cmd_repo.find_node.cmd, {
 
 --- Unsafe commands.
 --
---  Enabled with `cleaner.unsafe` setting.
+--  Enabled with [cleaner.unsafe](settings.html#cleaner.unsafe) setting.
 --
 --  @section unsafe
 
@@ -474,7 +474,7 @@ end
 --
 --  @chatcmd ctool
 --  @param action Action to execute. Can be "status", "setmode", or "setnode".
---  @param value Mode or node to be set for tool.
+--  @param value Mode or node to be set for tool (not required for "status" action)..
 core.register_chatcommand(cmd_repo.tool.cmd, {
 	privs = {server=true},
 	description = S("Manage settings for wielded cleaner tool.") .. "\n\n"
