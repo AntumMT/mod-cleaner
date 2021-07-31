@@ -32,7 +32,8 @@ Remove an entity from game.=Eliminar una entidad del juego.
 Remove a node from game.=Eliminar un nodo del juego.
 Replace an item in game.=Sustituir un objecto del juego.
 Replace a node in game.=Sustituir un nodo del juego.
-Find names of unknown nodes.=Encontrar los nombres de nodos desconocidos.
+Find names of unknown nodes.=Descubrir los nombres de nodos desconocidos.
+Find names of nearby nodes.=Descubrir los nombres de nodos cercanos.
 Remove an ore from game.=Eliminar un mineral del juego.
 Missing parameter.=Parámetro extraviado.
 Too many parameters.=Demasiados parámetros.
@@ -44,12 +45,16 @@ Removed @1 nodes.=Se eliminaron @1 nodos.
 Removed @1 entities.=Se eliminaron @1 entidades.
 Found unknown nodes: @1=Se encontraron @1 nodos desconocidos.
 No unknown nodes found.=No se encontraron nodos desconocidos.
+Nearby nodes: @1=Nodos cercanos: @1
+No nearby nodes found.=No se encontraron nodos cercanos.
 Ore "@1" not found, not unregistering.=No se encontró el mineral "@1", se mantiene registrado.
 Unregistered @1 ores (this will be undone after server restart).=Se anuló @1 minerales del registro.
 Success!=¡Éxito!
 Manage settings for wielded cleaner tool.=Administrar a los ajustes de la herramienta cleaner empuñada.
 Unrecognized wielded item: @1=Objeto empuñado desconocido: @1
 Unrecognized action: @1=Acción desconocido: @1
+You do not have permission to set radius that high. Reduced to @1.=No tienes permiso para poner al radio tan alto. Se reduce a @1.
+Radius is too high. Reduced to @1.=El radio es demasiado alto. Se reduce a @1.
 
 # tools:
 @1: mode set to: @2=@1: modo configurado para: @2

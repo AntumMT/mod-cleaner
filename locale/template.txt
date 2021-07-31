@@ -33,6 +33,7 @@ Remove a node from game.=
 Replace an item in game.=
 Replace a node in game.=
 Find names of unknown nodes.=
+Find names of nearby nodes.=
 Remove an ore from game.=
 Missing parameter.=
 Too many parameters.=
@@ -44,12 +45,16 @@ Removed @1 nodes.=
 Removed @1 entities.=
 Found unknown nodes: @1=
 No unknown nodes found.=
+Nearby nodes: @1=
+No nearby nodes found.=
 Ore "@1" not found, not unregistering.=
 Unregistered @1 ores (this will be undone after server restart).=
 Success!=
 Manage settings for wielded cleaner tool.=
 Unrecognized wielded item: @1=
 Unrecognized action: @1=
+You do not have permission to set radius that high. Reduced to @1.=
+Radius is too high. Reduced to @1.=
 
 # tools:
 @1: mode set to: @2=
