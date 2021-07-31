@@ -5,6 +5,7 @@
 
 # chat commands
 entity=
+mode=
 node=
 radius=
 old_item=
@@ -12,6 +13,8 @@ new_item=
 old_node=
 new_node=
 ore=
+action=
+value=
 Usage:=
 Params:=
 default: @1=
@@ -23,6 +26,8 @@ Technical name of node to be used in place.=
 Technical name of item to be replaced.=
 Technical name of item to be used in place.=
 Ore technical name.=
+Action to execute. Can be one of "@1", "@2", or "@3".=
+Mode or node to be set for tool (not required for "@1" action).=
 Remove an entity from game.=
 Remove a node from game.=
 Replace an item in game.=
@@ -42,6 +47,9 @@ No unknown nodes found.=
 Ore "@1" not found, not unregistering.=
 Unregistered @1 ores (this will be undone after server restart).=
 Success!=
+Manage settings for wielded cleaner tool.=
+Unrecognized wielded item: @1=
+Unrecognized action: @1=
 
 # tools:
 @1: mode set to: @2=
