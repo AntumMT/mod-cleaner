@@ -520,7 +520,7 @@ core.register_chatcommand(cmd_repo.near_node.cmd, {
 })
 
 
---- Unsafe commands.
+--- Unsafe Commands.
 --
 --  Enabled with [cleaner.unsafe](settings.html#cleaner.unsafe) setting.
 --
@@ -568,7 +568,7 @@ end
 --- @section end
 
 
---- Manages settings for wielded cleaner tool.
+--- Manages settings for wielded [cleaner tool](tools.html).
 --
 --  @chatcmd ctool
 --  @param action Action to execute. Can be "status", "setmode", or "setnode".

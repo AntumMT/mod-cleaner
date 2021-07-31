@@ -141,7 +141,7 @@ function cleaner.register_node_replacement(src, tgt)
 end
 
 
---- Unsafe methods.
+--- Unsafe Methods.
 --
 --  Enabled with [cleaner.unsafe](settings.html#cleaner.unsafe) setting.
 --

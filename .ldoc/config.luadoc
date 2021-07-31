@@ -41,13 +41,15 @@
 --  {
 --    "nodes" :
 --    {
---      "remove" : [
+--      "remove" :
+--      [
 --        "old:node_1",
 --        "old:node_2",
 --      ],
---      "replace" : {
+--      "replace" :
+--      {
 --        "old:node_3" : "new:node_1",
 --        "old:node_4" : "new:node_2",
---      }
+--      },
 --    },
 --  }
