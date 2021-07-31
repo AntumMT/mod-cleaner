@@ -188,6 +188,23 @@ local function format_help(cmd)
 end
 
 
+local function check_radius(radius, pname)
+	local is_admin = core.check_player_privs(pname, {server=true})
+
+	if not is_admin and radius > 10 then
+		radius = 10
+		return radius, S("You do not have permission to set radius that high. Reduced to @1.", radius)
+	end
+
+	if radius > 100 then
+		radius = 100
+		return radius, S("Radius is too high. Reduced to @1.", radius)
+	end
+
+	return radius
+end
+
+
 --- Removes nearby entities.
 --
 --  @chatcmd remove_entities
@@ -214,6 +231,11 @@ core.register_chatcommand(cmd_repo.entity.cmd, {
 			err = cmd_repo.param.missing
 		elseif not radius then
 			err = cmd_repo.param.mal_radius
+		end
+
+		local radius, msg = check_radius(radius, name)
+		if msg then
+			core.chat_send_player(name, msg)
 		end
 
 		if err then
@@ -269,6 +291,11 @@ core.register_chatcommand(cmd_repo.rem_node.cmd, {
 			err = cmd_repo.param.missing
 		elseif not radius then
 			err = cmd_repo.param.mal_radius
+		end
+
+		local radius, msg = check_radius(radius, name)
+		if msg then
+			core.chat_send_player(name, msg)
 		end
 
 		if err then
@@ -349,6 +376,11 @@ core.register_chatcommand(cmd_repo.rep_node.cmd, {
 			return false, cmd_repo.param.mal_radius .. "\n\n" .. help
 		end
 
+		local radius, msg = check_radius(radius, name)
+		if msg then
+			core.chat_send_player(name, msg)
+		end
+
 		if not core.registered_nodes[tgt] then
 			return false, S('Cannot use unknown node "@1" as replacement.', tgt)
 		end
@@ -393,6 +425,11 @@ core.register_chatcommand(cmd_repo.find_node.cmd, {
 
 		if not radius then
 			return false, cmd_repo.param.mal_radius .. "\n\n" .. help
+		end
+
+		local radius, msg = check_radius(radius, name)
+		if msg then
+			core.chat_send_player(name, msg)
 		end
 
 		local ppos = core.get_player_by_name(name):get_pos()
