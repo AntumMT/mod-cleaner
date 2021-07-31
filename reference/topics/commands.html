@@ -61,38 +61,38 @@
 <h2><a href="#Chat_Commands">Chat Commands</a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#remove_entities">remove_entities</a></td>
+	<td class="name" nowrap><a href="#remove_entities">remove_entities &lt;entity&gt; [radius]</a></td>
 	<td class="summary">Removes nearby entities.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#remove_nodes">remove_nodes</a></td>
+	<td class="name" nowrap><a href="#remove_nodes">remove_nodes &lt;node&gt; [radius]</a></td>
 	<td class="summary">Removes nearby nodes.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#replace_items">replace_items</a></td>
+	<td class="name" nowrap><a href="#replace_items">replace_items &lt;old_item&gt; &lt;new_item&gt;</a></td>
 	<td class="summary">Replaces an item.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#replace_nodes">replace_nodes</a></td>
+	<td class="name" nowrap><a href="#replace_nodes">replace_nodes &lt;old_node&gt; &lt;new_node&gt; [radius]</a></td>
 	<td class="summary">Replaces nearby nodes.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#find_unknown_nodes">find_unknown_nodes</a></td>
+	<td class="name" nowrap><a href="#find_unknown_nodes">find_unknown_nodes [radius]</a></td>
 	<td class="summary">Checks for nearby unknown nodes.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#find_nearby_nodes">find_nearby_nodes</a></td>
+	<td class="name" nowrap><a href="#find_nearby_nodes">find_nearby_nodes [radius]</a></td>
 	<td class="summary">Finds names of nearby nodes.</td>
 	</tr>
 	<tr>
-	<td class="name" nowrap><a href="#ctool">ctool</a></td>
+	<td class="name" nowrap><a href="#ctool">ctool &lt;action&gt; &lt;value&gt;</a></td>
 	<td class="summary">Manages settings for wielded <a href="tools.html">cleaner tool</a>.</td>
 	</tr>
 </table>
 <h2><a href="#Unsafe_Commands">Unsafe Commands </a></h2>
 <table class="function_list">
 	<tr>
-	<td class="name" nowrap><a href="#remove_ores">remove_ores</a></td>
+	<td class="name" nowrap><a href="#remove_ores">remove_ores &lt;ore&gt;</a></td>
 	<td class="summary">Registers an ore to be removed.</td>
 	</tr>
 </table>
@@ -105,11 +105,22 @@
 
     <dl class="function">
     <dt>
-    <a name = "remove_entities"></a>
-    <strong>remove_entities</strong>
+    <a name = "remove_entities &lt;entity&gt; [radius]"></a>
+    <strong>remove_entities &lt;entity&gt; [radius]</strong>
     </dt>
     <dd>
-    Removes nearby entities.
+
+<p>Removes nearby entities. </p>
+
+<p>  <h3>Required Privileges:</h3></p>
+
+<ul>
+    <li>server</li>
+</ul>
+
+
+<h3>Parameters:</h3>
+
 
     </ul>
     </ul>
@@ -124,9 +135,7 @@
         </li>
         <li><span class="parameter">radius</span>
             <span class="types"><span class="type">int</span></span>
-
-
-
+         Search radius (default: 100).
          (<em>optional</em>)
         </li>
     </ul>
@@ -134,14 +143,30 @@
 
 
 
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"># remove all mobs:horse entities within a radius of <span class="number">10</span> nodes
+/remove_entities mobs:horse <span class="number">10</span></pre>
+    </ul>
 
 </dd>
     <dt>
-    <a name = "remove_nodes"></a>
-    <strong>remove_nodes</strong>
+    <a name = "remove_nodes &lt;node&gt; [radius]"></a>
+    <strong>remove_nodes &lt;node&gt; [radius]</strong>
     </dt>
     <dd>
-    Removes nearby nodes.
+
+<p>Removes nearby nodes. </p>
+
+<p>  <h3>Required Privileges:</h3></p>
+
+<ul>
+    <li>server</li>
+</ul>
+
+
+<h3>Parameters:</h3>
+
 
     </ul>
     </ul>
@@ -156,9 +181,7 @@
         </li>
         <li><span class="parameter">radius</span>
             <span class="types"><span class="type">int</span></span>
-
-
-
+         Search radius (default: 5).
          (<em>optional</em>)
         </li>
     </ul>
@@ -166,14 +189,30 @@
 
 
 
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"># remove all default:dirt nodes within a radius of <span class="number">10</span>
+/remove_nodes default:dirt <span class="number">10</span></pre>
+    </ul>
 
 </dd>
     <dt>
-    <a name = "replace_items"></a>
-    <strong>replace_items</strong>
+    <a name = "replace_items &lt;old_item&gt; &lt;new_item&gt;"></a>
+    <strong>replace_items &lt;old_item&gt; &lt;new_item&gt;</strong>
     </dt>
     <dd>
-    Replaces an item.
+
+<p>Replaces an item. </p>
+
+<p>  <h3>Required Privileges:</h3></p>
+
+<ul>
+    <li>server</li>
+</ul>
+
+
+<h3>Parameters:</h3>
+
 
     </ul>
     </ul>
@@ -194,14 +233,30 @@
 
 
 
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"># replace default:sword_wood with default:sword_mese
+/replace_items default:sword_wood default:sword_mese</pre>
+    </ul>
 
 </dd>
     <dt>
-    <a name = "replace_nodes"></a>
-    <strong>replace_nodes</strong>
+    <a name = "replace_nodes &lt;old_node&gt; &lt;new_node&gt; [radius]"></a>
+    <strong>replace_nodes &lt;old_node&gt; &lt;new_node&gt; [radius]</strong>
     </dt>
     <dd>
-    Replaces nearby nodes.
+
+<p>Replaces nearby nodes. </p>
+
+<p>  <h3>Required Privileges:</h3></p>
+
+<ul>
+    <li>server</li>
+</ul>
+
+
+<h3>Parameters:</h3>
+
 
     </ul>
     </ul>
@@ -219,9 +274,7 @@
         </li>
         <li><span class="parameter">radius</span>
             <span class="types"><span class="type">int</span></span>
-
-
-
+         Search radius (default: 5).
          (<em>optional</em>)
         </li>
     </ul>
@@ -229,14 +282,30 @@
 
 
 
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"># replace all default:dirt nodes with default:cobble within a radius of <span class="number">10</span>
+/replace_nodes default:dirt default:cobble <span class="number">10</span></pre>
+    </ul>
 
 </dd>
     <dt>
-    <a name = "find_unknown_nodes"></a>
-    <strong>find_unknown_nodes</strong>
+    <a name = "find_unknown_nodes [radius]"></a>
+    <strong>find_unknown_nodes [radius]</strong>
     </dt>
     <dd>
-    Checks for nearby unknown nodes.
+
+<p>Checks for nearby unknown nodes. </p>
+
+<p>  <h3>Required Privileges:</h3></p>
+
+<ul>
+    <li>server</li>
+</ul>
+
+
+<h3>Parameters:</h3>
+
 
     </ul>
     </ul>
@@ -248,7 +317,7 @@
     <ul>
         <li><span class="parameter">radius</span>
             <span class="types"><span class="type">int</span></span>
-         Search radius.
+         Search radius (default: 100).
          (<em>optional</em>)
         </li>
     </ul>
@@ -256,14 +325,30 @@
 
 
 
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"># <span class="global">print</span> names of all unknown nodes within radius of <span class="number">10</span>
+/find_unknown_nodes <span class="number">10</span></pre>
+    </ul>
 
 </dd>
     <dt>
-    <a name = "find_nearby_nodes"></a>
-    <strong>find_nearby_nodes</strong>
+    <a name = "find_nearby_nodes [radius]"></a>
+    <strong>find_nearby_nodes [radius]</strong>
     </dt>
     <dd>
-    Finds names of nearby nodes.
+
+<p>Finds names of nearby nodes. </p>
+
+<p>  <h3>Required Privileges:</h3></p>
+
+<ul>
+    <li>server</li>
+</ul>
+
+
+<h3>Parameters:</h3>
+
 
     </ul>
     </ul>
@@ -275,7 +360,7 @@
     <ul>
         <li><span class="parameter">radius</span>
             <span class="types"><span class="type">int</span></span>
-         Search radius.
+         Search radius (default: 5).
          (<em>optional</em>)
         </li>
     </ul>
@@ -283,14 +368,30 @@
 
 
 
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"># <span class="global">print</span> names of all node types found within radius of <span class="number">10</span>
+/find_nearby_nodes <span class="number">10</span></pre>
+    </ul>
 
 </dd>
     <dt>
-    <a name = "ctool"></a>
-    <strong>ctool</strong>
+    <a name = "ctool &lt;action&gt; &lt;value&gt;"></a>
+    <strong>ctool &lt;action&gt; &lt;value&gt;</strong>
     </dt>
     <dd>
-    Manages settings for wielded <a href="tools.html">cleaner tool</a>.
+
+<p>Manages settings for wielded <a href="tools.html">cleaner tool</a>. </p>
+
+<p>  <h3>Required Privileges:</h3></p>
+
+<ul>
+    <li>server</li>
+</ul>
+
+
+<h3>Parameters:</h3>
+
 
     </ul>
     </ul>
@@ -304,13 +405,19 @@
          Action to execute. Can be "status", "setmode", or "setnode".
         </li>
         <li><span class="parameter">value</span>
-         Mode or node to be set for tool (not required for "status" action)..
+         Mode or node to be set for tool (not required for "status" action).
         </li>
     </ul>
 
 
 
 
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"># <span class="keyword">while</span> cleaner:pencil is wielded, configure to place default:dirt node when used
+/ctool setmode write
+/ctool setnode default:dirt</pre>
+    </ul>
 
 </dd>
 </dl>
@@ -321,11 +428,22 @@
           </div>
     <dl class="function">
     <dt>
-    <a name = "remove_ores"></a>
-    <strong>remove_ores</strong>
+    <a name = "remove_ores &lt;ore&gt;"></a>
+    <strong>remove_ores &lt;ore&gt;</strong>
     </dt>
     <dd>
-    Registers an ore to be removed.
+
+<p>Registers an ore to be removed. </p>
+
+<p>  <h3>Required Privileges:</h3></p>
+
+<ul>
+    <li>server</li>
+</ul>
+
+
+<h3>Parameters:</h3>
+
 
     </ul>
     </ul>
@@ -343,6 +461,11 @@
 
 
 
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"># remove all registered ores that add default:stone_with_iron to world
+/remove_ores default:stone_with_iron</pre>
+    </ul>
 
 </dd>
 </dl>
@@ -352,7 +475,7 @@
 </div> <!-- id="main" -->
 <div id="about">
 <i>generated by <a href="http://github.com/AntumDeluge/LDoc/tree/custom">LDoc 1.4.6-antum-dev</a></i>
-<i style="float:right;">Last updated 2021-07-31 21:38:57 </i>
+<i style="float:right;">Last updated 2021-07-31 22:46:51 </i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
 </body>
