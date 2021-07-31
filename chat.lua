@@ -447,9 +447,9 @@ core.register_chatcommand(cmd_repo.find_node.cmd, {
 			end
 		end
 
-		local msg
-		if #unknown_nodes > 0 then
-			msg = S("Found unknown nodes: @1", table.concat(unknown_nodes, ", "))
+		local node_count = #unknown_nodes
+		if node_count > 0 then
+			msg = S("Found unknown nodes: @1", node_count) .. "\n  " .. table.concat(unknown_nodes, ", ")
 		else
 			msg = S("No unknown nodes found.")
 		end
