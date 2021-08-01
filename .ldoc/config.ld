@@ -18,6 +18,7 @@ format = "markdown"
 not_luadoc=true
 boilerplate = false
 style = true
+icon = "textures/cleaner_pencil.png"
 
 file = {
 	"settings.lua",
