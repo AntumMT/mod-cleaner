@@ -1,6 +1,7 @@
 
-local print, error, type, table, ipairs, string, tostring
+local dofile, print, error, type, table, ipairs, string, tostring
 if import then
+	dofile = import("dofile")
 	print = import("print")
 	error = import("error")
 	type = import("type")
@@ -38,43 +39,9 @@ local function video_frame(src)
 		.. ' allow="fullscreen;"></iframe>'
 end
 
-custom_tags = {
-	{
-		"privs",
-		title = "Required Privileges",
-	},
-	{
-		"video",
-		title = "Video",
-		format = video_frame,
-	},
-	{
-		"youtube",
-		title = "Video",
-		format = function(value)
-			return video_frame("https://www.youtube.com/embed/" .. value)
-		end,
-	},
-	-- settings
-	{
-		"settype",
-		title = "Setting Type",
-		hidden = true,
-	},
-	{
-		"default",
-		title = "Default Value",
-		hidden = true,
-	},
-	-- craft items/tools
-	{
-		"img",
-		title = "Image",
-		format = function(value)
-			return "<img src=\"../data/" .. value .. "\" style=\"width:32px; height:32px;\" />"
-		end,
-	},
-}
+
+local tags
+tags, custom_tags = dofile(".ldoc/tags.ld")
 
 
 -- START: handling items to prevent re-parsing
@@ -172,6 +139,27 @@ local function chatcmd_handler(item)
 		item.description = item.description .. "\n\n### Parameters:"
 	end
 
+	if item.tags.chatparam then
+		local pstring = "### Parameters:\n"
+		for _, cp in ipairs(item.tags.chatparam) do
+			local idx, key, desc = cp:find(" ")
+			if idx then
+				key = cp:sub(1, idx-1)
+				value = cp:sub(idx)
+			else
+				key = cp
+			end
+
+			pstring = pstring .. '\n- <span class="parameter">'
+				.. key .. '</span>'
+			if value then
+				pstring = pstring .. value
+			end
+
+			item.description = item.description .. "\n\n" .. pstring
+		end
+	end
+
 	return item
 end
 
@@ -182,10 +170,27 @@ function custom_display_name_handler(item, default_handler)
 		elseif item.type == "chatcmd" then
 			item = chatcmd_handler(item)
 		end
+
+		local parse_tags = {"priv", "note"}
+		for _, pt in ipairs(parse_tags) do
+			local tvalues = item.tags[pt]
+			if tvalues then
+				local tstring = ""
+
+				local title = tags.get_title(pt)
+				if title then
+					tstring = tstring .. "\n\n### " .. title .. ":\n"
+				end
+
+				for _, tv in ipairs(tvalues) do
+					tstring = tstring .. "\n- " .. tags.format(pt, tv)
+				end
+
+				item.description = item.description .. tstring
+			end
+		end
 	end
 
-	if item then
-		register(item)
-		return default_handler(item)
-	end
+	register(item)
+	return default_handler(item)
 end
