@@ -136,28 +136,32 @@ local function chatcmd_handler(item)
 	end
 
 	if #item.params > 0 then
-		item.description = item.description .. "\n\n### Parameters:"
-	end
-
-	if item.tags.chatparam then
 		local pstring = "### Parameters:\n"
-		for _, cp in ipairs(item.tags.chatparam) do
-			local idx, key, desc = cp:find(" ")
-			if idx then
-				key = cp:sub(1, idx-1)
-				value = cp:sub(idx)
-			else
-				key = cp
-			end
+		for k, param in pairs(item.params) do
+			if type(k) == "number" then
+				local value = item.params.map[param]
 
-			pstring = pstring .. '\n- <span class="parameter">'
-				.. key .. '</span>'
-			if value then
-				pstring = pstring .. value
-			end
+				pstring = pstring .. '\n- <span class="parameter">'
+					.. param .. '</span>'
 
-			item.description = item.description .. "\n\n" .. pstring
+				local modifiers = item.modifiers.param[param]
+				if modifiers and modifiers.type then
+					pstring = pstring .. ' <span class="types"><span class="type">`' .. modifiers.type .. '`</span></span>'
+				end
+
+				if value then
+					pstring = pstring .. value
+				end
+
+				if modifiers and modifiers.opt then
+					pstring = pstring .. " *(optional)*"
+				end
+			end
 		end
+
+		item.description = item.description .. "\n\n" .. pstring
+		-- clear parameter list
+		item.params = {}
 	end
 
 	return item
