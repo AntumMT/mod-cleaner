@@ -34,8 +34,9 @@ echo -e "\ncopying textures ..."
 mkdir -p "${d_data}"
 texture_count=0
 for png in $(find "${d_root}/textures" -maxdepth 1 -type f -name "*.png"); do
-	if test -f "${d_data}/$(basename ${png})"; then
-		echo "WARNING: not overwriting existing file: ${png}"
+	t_png="${d_data}/$(basename ${png})"
+	if test -f "${t_png}"; then
+		echo "WARNING: not overwriting existing file: ${t_png}"
 	else
 		cp "${png}" "${d_data}"
 		texture_count=$((texture_count + 1))
