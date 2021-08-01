@@ -19,6 +19,7 @@ not_luadoc=true
 boilerplate = false
 style = true
 icon = "textures/cleaner_pencil.png"
+favicon = "https://icons.iconarchive.com/icons/papirus-team/papirus-apps/16/minetest-icon.png"
 
 file = {
 	"settings.lua",
