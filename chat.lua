@@ -211,13 +211,10 @@ end
 
 --- Removes nearby entities.
 --
---  <h3>Required Privileges:</h3>
---
---  - server
---
 --  @chatcmd remove_entities
 --  @param entity Entity technical name.
 --  @tparam[opt] int radius Search radius (default: 100).
+--  @priv server
 --  @usage
 --  # remove all mobs:horse entities within a radius of 10 nodes
 --  /remove_entities mobs:horse 10
@@ -278,13 +275,10 @@ core.register_chatcommand(cmd_repo.entity.cmd, {
 
 --- Removes nearby nodes.
 --
---  <h3>Required Privileges:</h3>
---
---  - server
---
 --  @chatcmd remove_nodes
 --  @param node Node technical name.
 --  @tparam[opt] int radius Search radius (default: 5).
+--  @priv server
 --  @usage
 --  # remove all default:dirt nodes within a radius of 10
 --  /remove_nodes default:dirt 10
@@ -337,13 +331,10 @@ core.register_chatcommand(cmd_repo.rem_node.cmd, {
 
 --- Replaces an item.
 --
---  <h3>Required Privileges:</h3>
---
---  - server
---
 --  @chatcmd replace_items
 --  @param old_item Technical name of item to replace.
 --  @param new_item Technical name of item to be used in place.
+--  @priv server
 --  @usage
 --  # replace default:sword_wood with default:sword_mese
 --  /replace_items default:sword_wood default:sword_mese
@@ -372,14 +363,11 @@ core.register_chatcommand(cmd_repo.item.cmd, {
 
 --- Replaces nearby nodes.
 --
---  <h3>Required Privileges:</h3>
---
---  - server
---
 --  @chatcmd replace_nodes
 --  @param old_node Technical name of node to replace.
 --  @param new_node Technical name of node to be used in place.
 --  @tparam[opt] int radius Search radius (default: 5).
+--  @priv server
 --  @usage
 --  # replace all default:dirt nodes with default:cobble within a radius of 10
 --  /replace_nodes default:dirt default:cobble 10
@@ -436,12 +424,9 @@ core.register_chatcommand(cmd_repo.rep_node.cmd, {
 
 --- Checks for nearby unknown nodes.
 --
---  <h3>Required Privileges:</h3>
---
---  - server
---
 --  @chatcmd find_unknown_nodes
 --  @tparam[opt] int radius Search radius (default: 100).
+--  @priv server
 --  @usage
 --  # print names of all unknown nodes within radius of 10
 --  /find_unknown_nodes 10
@@ -499,12 +484,9 @@ core.register_chatcommand(cmd_repo.find_node.cmd, {
 
 --- Finds names of nearby nodes.
 --
---  <h3>Required Privileges:</h3>
---
---  - server
---
 --  @chatcmd find_nearby_nodes
 --  @tparam[opt] int radius Search radius (default: 5).
+--  @priv server
 --  @usage
 --  # print names of all node types found within radius of 10
 --  /find_nearby_nodes 10
@@ -572,12 +554,11 @@ core.register_chatcommand(cmd_repo.near_node.cmd, {
 if cleaner.unsafe then
 	--- Registers an ore to be removed.
 	--
-	--  <h3>Required Privileges:</h3>
-	--
-	--  - server
-	--
 	--  @chatcmd remove_ores
 	--  @param ore Ore technical name.
+	--  @priv server
+	--  @note This action is reverted after server restart. To make changes permanent,
+	--  use the [cleaner.json](config.html#cleaner.json) config.
 	--  @usage
 	--  # remove all registered ores that add default:stone_with_iron to world
 	--  /remove_ores default:stone_with_iron

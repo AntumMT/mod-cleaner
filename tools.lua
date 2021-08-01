@@ -13,7 +13,7 @@ local aux = dofile(cleaner.modpath .. "/misc_functions.lua")
 --
 --  @tool cleaner:pencil
 --  @img cleaner_pencil.png
---  @privs server
+--  @priv server
 --  @usage
 --  place (right-click):
 --  - when not pointing at a node, changes modes
