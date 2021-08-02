@@ -14,9 +14,9 @@ v1.2
 	- replace_items
 	- replace_nodes
 	- find_unknown_nodes
-	- find_neaby_nodes
+	- find_nearby_nodes
 	- remove_ores (unsafe)
-	- ctool (manages pencil tool settings)
+	- ctool (manages wielded cleaner tool settings)
 
 v1.1
 ----
