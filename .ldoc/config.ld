@@ -17,7 +17,6 @@ title = "Cleaner mod for Minetest"
 format = "markdown"
 not_luadoc=true
 boilerplate = false
-style = true
 icon = "textures/cleaner_pencil.png"
 favicon = "https://www.minetest.net/media/icon.svg"
 
