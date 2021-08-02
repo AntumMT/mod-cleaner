@@ -21,7 +21,7 @@ fi
 rm -rf "${d_export}"
 
 # generate new doc files
-"${cmd_ldoc}" --UNSAFE_NO_SANDBOX -c "${f_config}" -d "${d_export}" "${d_root}"; retval=$?
+"${cmd_ldoc}" --UNSAFE_NO_SANDBOX --multimodule -c "${f_config}" -d "${d_export}" "${d_root}"; retval=$?
 
 # check exit status
 if test ${retval} -ne 0; then
