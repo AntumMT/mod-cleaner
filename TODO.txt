@@ -9,3 +9,6 @@ TODO:
 - add "xrotate" & "zrorate" modes for pencil
 - don't require "server" priv for "find_unknown_nodes" & "find_neaby_nodes" commands
 - add chat command to find nodes with specified attributes
+- may be better to update player inventories on login than add aliases for items
+- use aliases for unknown nodes instead of LBM
+- only use LBM when a node to replace is still registered
