@@ -1,5 +1,5 @@
 
-next
+v1.2.1
 ----
 - use sounds mod for sounds
 
