@@ -151,6 +151,7 @@ local tool = {
 	end,
 }
 
+local use_sounds = core.global_exists("sounds")
 local sound_handle
 
 tool.on_use = function(stack, user, pointed_thing)
@@ -175,17 +176,23 @@ tool.on_use = function(stack, user, pointed_thing)
 
 		if mode == "erase" then
 			core.remove_node(npos)
-			sound_handle = core.sound_play("cleaner_pencil_erase", {object=user})
+			if use_sounds then
+				local sound_handle = sounds.pencil_erase({object=user})
+			end
 			return stack
 		elseif core.registered_nodes[new_node_name] then
 			if mode == "swap" then
 				core.swap_node(npos, {name=new_node_name})
-				sound_handle = core.sound_play("cleaner_pencil_write", {object=user})
+				if use_sounds then
+					local sound_handle = sounds.pencil_write({object=user})
+				end
 			elseif mode == "write" then
 				local node_above = core.get_node_or_nil(pointed_thing.above)
 				if not node_above or node_above.name == "air" then
 					core.set_node(pointed_thing.above, {name=new_node_name})
-					sound_handle = core.sound_play("cleaner_pencil_write", {object=user})
+					if use_sounds then
+						local sound_handle = sounds.pencil_write({object=user})
+					end
 				else
 					core.chat_send_player(pname, S("Can't place node there."))
 				end

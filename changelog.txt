@@ -1,4 +1,9 @@
 
+next
+----
+- use sounds mod for sounds
+
+
 v1.2
 ----
 - added API
