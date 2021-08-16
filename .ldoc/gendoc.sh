@@ -10,7 +10,6 @@ cd "${d_ldoc}/.."
 
 d_root="$(pwd)"
 d_export="${d_export:-${d_root}/docs/reference}"
-d_data="${d_export}/data"
 
 cmd_ldoc="${d_ldoc}/ldoc/ldoc.lua"
 if test ! -x "${cmd_ldoc}"; then
@@ -20,14 +19,22 @@ fi
 # clean old files
 rm -rf "${d_export}"
 
+vinfo="v$(grep "^version = " "${d_root}/mod.conf" | head -1 | sed -e 's/version = //')"
+d_data="${d_export}/${vinfo}/data"
+
 # generate new doc files
-"${cmd_ldoc}" --UNSAFE_NO_SANDBOX --multimodule -c "${f_config}" -d "${d_export}" "${d_root}"; retval=$?
+"${cmd_ldoc}" --UNSAFE_NO_SANDBOX --multimodule -c "${f_config}" -d "${d_export}/${vinfo}" "${d_root}"; retval=$?
 
 # check exit status
 if test ${retval} -ne 0; then
 	echo -e "\nan error occurred (ldoc return code: ${retval})"
 	exit ${retval}
 fi
+
+# show version info
+for html in $(find "${d_export}/${vinfo}" -type f -name "*.html"); do
+	sed -i -e "s|^<h1>[cC]leaner</h1>$|<h1>Cleaner <span style=\"font-size:12pt;\">(${vinfo})</span></h1>|" "${html}"
+done
 
 # copy textures to data directory
 echo -e "\ncopying textures ..."
