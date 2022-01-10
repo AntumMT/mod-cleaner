@@ -137,7 +137,7 @@ local function format_params(cmd)
 	local param_count
 	local all_params = {}
 	if def.params then
-		for k, v in ipairs(def.params) do
+		for _, p in ipairs(def.params) do
 			table.insert(all_params, p)
 		end
 	end
