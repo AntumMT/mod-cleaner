@@ -1,4 +1,9 @@
 
+2025-01-18
+----------
+- fix undeclared global
+
+
 v1.2.1
 ----
 - use sounds mod for sounds
