@@ -135,6 +135,7 @@ local function format_params(cmd)
 	local def = get_cmd_def(cmd)
 
 	local param_count
+	-- FIXME: unused?
 	local all_params = {}
 	if def.params then
 		for _, p in ipairs(def.params) do
