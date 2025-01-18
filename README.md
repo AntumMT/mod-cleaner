@@ -1,8 +1,8 @@
-## Cleaner mod for Minetest
+## Cleaner mod for Luanti
 
 ### Description:
 
-A [Minetest][] mod that can be used to remove/replace unknown entities, nodes, & items. Originally forked from [PilzAdam's ***clean*** mod][f.pilzadam].
+A [Luanti (Minetest)][Luanti] mod that can be used to remove/replace unknown entities, nodes, & items. Originally forked from [PilzAdam's ***clean*** mod][f.pilzadam].
 
 ![screenshot](screenshot.png)
 
@@ -13,7 +13,7 @@ A [Minetest][] mod that can be used to remove/replace unknown entities, nodes, &
 
 ### Requirements:
 
-- Minetest minimum version: 5.0
+- Luanti minimum version: 5.0
 - Depends: none
 
 ### Usage:
@@ -73,14 +73,14 @@ cleaner.unsafe
 
 ### Links:
 
-- [![ContentDB](https://content.minetest.net/packages/AntumDeluge/cleaner/shields/title/)][ContentDB]
-- [Forum](https://forum.minetest.net/viewtopic.php?t=18381)
+- [![ContentDB](https://content.luanti.org/packages/AntumDeluge/cleaner/shields/title/)][ContentDB]
+- [Forum](https://forum.luanti.org/viewtopic.php?t=18381)
 - [Git repo](https://github.com/AntumMT/mod-cleaner)
 - [Reference](https://antummt.github.io/mod-cleaner/reference/latest/)
 - [Changelog](changelog.txt)
 - [TODO](TODO.txt)
 
 
-[Minetest]: http://www.minetest.net/
-[f.pilzadam]: https://forum.minetest.net/viewtopic.php?t=2777
-[ContentDB]: https://content.minetest.net/packages/AntumDeluge/cleaner/
+[Luanti]: https://luanti.org/
+[f.pilzadam]: https://forum.luanti.org/viewtopic.php?t=2777
+[ContentDB]: https://content.luanti.org/packages/AntumDeluge/cleaner/

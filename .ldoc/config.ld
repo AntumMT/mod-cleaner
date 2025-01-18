@@ -13,12 +13,12 @@ end
 
 
 project = "Cleaner"
-title = "Cleaner mod for Minetest"
+title = "Cleaner mod for Luanti"
 format = "markdown"
 not_luadoc=true
 boilerplate = false
 icon = "textures/cleaner_pencil.png"
-favicon = "https://www.minetest.net/media/icon.svg"
+favicon = "https://www.luanti.org/media/icon.svg"
 
 file = {
 	"settings.lua",
