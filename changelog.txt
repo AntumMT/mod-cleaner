@@ -2,6 +2,7 @@
 2025-01-18
 ----------
 - fix undeclared global
+- added nil check after reading world data file
 
 
 v1.2.1
