@@ -28,8 +28,13 @@ local function get_world_data()
 	local wdata = {}
 	local buffer = io.open(world_file, "r")
 	if buffer then
-		wdata = core.parse_json(buffer:read("*a"))
+		local err
+		wdata, err = core.parse_json(buffer:read("*a"), nil, true)
 		buffer:close()
+		if wdata == nil then
+			cleaner.log("warning", "reading world data file failed: " .. world_file)
+			wdata = {}
+		end
 	end
 
 	local rem_types = {"entities", "nodes", "ores",}
