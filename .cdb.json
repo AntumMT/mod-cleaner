@@ -1,11 +1,20 @@
 {
 	"type": "MOD",
 	"title": "Cleaner",
+	"name": "cleaner",
 	"short_description": "Remove/Replace unknown entities, nodes, & items.",
+	"dev_state": "MAINTENANCE_ONLY",
+	"ai_disclosure": "NONE",
+	"tags": ["world_tools"],
+	"content_warnings": null,
 	"license": "MIT",
 	"media_license": "CC0-1.0",
-	"tags": ["world_tools"],
+
 	"repo": "https://codeberg.org/AntumLuanti/mod-cleaner",
+	"website": null,
 	"issue_tracker": "https://codeberg.org/AntumLuanti/mod-cleaner/issues",
-	"forums": 18381
+	"forums": 18381,
+	"video_url": null,
+	"donate_url": null,
+	"translation_url": null
 }
