@@ -75,7 +75,10 @@ cleaner.unsafe
 
 - [![ContentDB](https://content.luanti.org/packages/AntumDeluge/cleaner/shields/title/)][ContentDB]
 - [Forum](https://forum.luanti.org/viewtopic.php?t=18381)
-- [Git repo](https://github.com/AntumMT/mod-cleaner)
+- Git repos:
+    - [Codeberg](https://codeberg.org/AntumLuanti/mod-cleaner)
+    - [GitHub](https://github.com/AntumMT/mod-cleaner)
+    - [GitLab](https://gitlab.com/AntumMT/mod-cleaner)
 - [Reference](https://antummt.github.io/mod-cleaner/reference/latest/)
 - [Changelog](changelog.txt)
 - [TODO](TODO.txt)
